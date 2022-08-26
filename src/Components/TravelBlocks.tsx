@@ -3,6 +3,7 @@ import { Card } from 'antd';
 import { Travels } from '../Interface/Travel';
 import { Link } from 'react-router-dom';
 import data from '../Data';
+import { HomeOutlined, PlusOutlined, TeamOutlined } from "@ant-design/icons";
 
 
 //<Link to={`/travels/${travel.id}`} />
@@ -21,12 +22,19 @@ const TravelBlocks= () => {
                     <h4>{travel.date}</h4>
                     <h5>{travel.author}</h5>
                     <Link to={`/travels/${travel.id}`}>
-                    <button>Click</button>
+                    <button>More</button>
                     </Link>
                 </Card>
             </div>
-
         ))}
+        <Link to={`/create`}>
+            <div className="site-card-border-less-wrapper">
+                <Card bordered={false} style={{ width: 300 }}>
+                    <PlusOutlined style={{ fontSize: '100px', color: 'red' }} />
+                </Card>
+            </div>
+                    
+        </Link>
     </div>
 );
 }

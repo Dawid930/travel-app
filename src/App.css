@@ -38,5 +38,11 @@ select {
 
 .site-card-border-less-wrapper {
   padding: 30px;
+}
+
+.travel-list {
+  display: flex;
+  flex-wrap: wrap;
   background: #ececec;
+
 }
