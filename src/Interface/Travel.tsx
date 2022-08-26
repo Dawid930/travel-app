@@ -5,7 +5,9 @@ export interface Travel {
     author: string,
     description: string,
     date: string,
-    id: number
+    travelCompanions: string,
+    id: number,
+    
 }
 
 export interface Travels {

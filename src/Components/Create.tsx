@@ -3,14 +3,20 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, DatePicker, InputNumber, Upload } from "antd";
 
+
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+
+type DateSetter = {
+    start: Date | undefined,
+    end: Date | undefined
+}
 
 const Create = () => {
   const [title, setTitle] = useState("");
   const [country, setCountry] = useState("");
   const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<DateSetter>({start:new Date(), end:new Date()}); //usestate ut'n egz tipust nativ date type 
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
   const [travelCompanions, setTravelCompanions] = useState<string | undefined>(
@@ -68,16 +74,23 @@ const Create = () => {
           />
         </Form.Item>
 
-        <Form.Item label="Date">
+  {/*       <Form.Item label="Date">
           <Input
             type="number"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
-        </Form.Item>
-        {/*         <Form.Item label="RangePicker">
-          <RangePicker value={date} onChange={(e) => setDate(EventValue<Moment>, EventValue<Moment>])} />
         </Form.Item> */}
+          <Form.Item label="RangePicker">
+          <RangePicker  onChange={(e) => {console.log(e?.[0]?.toDate())
+            setDate({
+                start: e?.[0]?.toDate(),
+                end: e?.[1]?.toDate()
+            })}
+        }/>
+
+       
+        </Form.Item> 
 
         <Form.Item label="Description">
           <TextArea
@@ -106,12 +119,13 @@ const Create = () => {
             </div>
           </Upload>
         </Form.Item>
-        
+
         <Form.Item>
           {!isPending && <Button htmlType="submit">Submit</Button>}
           {isPending && <Button disabled>Adding your new travel...</Button>}
         </Form.Item>
       </Form>
+      <h1>{JSON.stringify(date)}</h1>
     </div>
   );
 };

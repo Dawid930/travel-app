@@ -7,7 +7,7 @@
       "author": "David",
       "date": "2022.07.21. - 2022.07.28.",
       "description": "This was the best place ever. Nice beaches etc...",
-      "travel companions": 0,
+      "travelCompanions": 0,
       "id": 1
     },
     {
@@ -31,16 +31,6 @@
       "id": 3
     },
     {
-      "title": "asd",
-      "country": "asd",
-      "location": "asd",
-      "date": "123",
-      "description": "qweqwe",
-      "author": "asdasd",
-      "travelCompanions": 3,
-      "id": 4
-    },
-    {
       "title": "",
       "country": "",
       "location": "",
@@ -49,6 +39,29 @@
       "author": "",
       "travelCompanions": "",
       "id": 5
+    },
+    {
+      "title": "asd",
+      "country": "asd",
+      "location": "asd",
+      "date": "",
+      "description": "asd",
+      "author": "asd",
+      "travelCompanions": "",
+      "id": 6
+    },
+    {
+      "title": "asd",
+      "country": "asd",
+      "location": "asd",
+      "date": {
+        "start": "2022-08-09T12:30:12.934Z",
+        "end": "2022-08-12T12:30:12.934Z"
+      },
+      "description": "asd",
+      "author": "as",
+      "travelCompanions": 1,
+      "id": 7
     }
   ]
 }

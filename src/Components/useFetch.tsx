@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Travel } from "../Interface/Travel";
 
-//kell ez?
+
 
 
 const useFetch = (url: string) => {
-    const [data, setData] = useState<Travel[] | []>([]) //mukodik a TS-kieg nelkul is, miert?
+    const [data, setData] = useState<Travel[] | [] | {[key:string]:any}>({}) // Travel[]| []
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState<string | null>(null) //mukodik a TS-kieg nelkul is, miert?
 
