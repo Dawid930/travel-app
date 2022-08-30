@@ -5,14 +5,14 @@ import { Travel } from "../Interface/Travel";
 
 
 const useFetch = (url: string) => {
-    const [data, setData] = useState<Travel[] | [] | {[key:string]:any}>({}) // Travel[]| []
+    //const [data, setData] = useState<Travel[] | [] | {[key:string]:any}>({}) // Travel[]| []
+    const [data, setData] = useState<any>(null) // Travel[]| []
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState<string | null>(null) //mukodik a TS-kieg nelkul is, miert?
 
     useEffect(() => {
         const abortCont = new AbortController();
     
-        setTimeout(() => {
           fetch(url, { signal: abortCont.signal })
           .then(res => {
             if (!res.ok) { // error coming back from server
@@ -34,8 +34,7 @@ const useFetch = (url: string) => {
               setError(err.message);
             }
           })
-        }, 1000);
-    
+        
         // abort the fetch
         return () => abortCont.abort();
       }, [url])

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, DatePicker, InputNumber, Upload } from "antd";
+import { Form, Input, Button, DatePicker, InputNumber, Upload, notification } from "antd";
+import { StandardButton } from "./Style";
 
 
 const { RangePicker } = DatePicker;
@@ -16,7 +17,7 @@ const Create = () => {
   const [title, setTitle] = useState("");
   const [country, setCountry] = useState("");
   const [location, setLocation] = useState("");
-  const [date, setDate] = useState<DateSetter>({start:new Date(), end:new Date()}); //usestate ut'n egz tipust nativ date type 
+  const [dateRange, setDateRange] = useState<DateSetter>({start:new Date(), end:new Date()}); //usestate utan egz tipust nativ date type 
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
   const [travelCompanions, setTravelCompanions] = useState<string | undefined>(
@@ -31,7 +32,7 @@ const Create = () => {
       title,
       country,
       location,
-      date,
+      dateRange,
       description,
       author,
       travelCompanions,
@@ -47,23 +48,37 @@ const Create = () => {
     }).then(() => {
       console.log("new added");
       setIsPending(false);
-      navigate("/");
+      
     });
   };
 
+  const openNotification = () => {
+    notification.open({
+      message: 'Your new journey is submitted!',
+      description:
+        'Now you can see the newly added element on the home page.',
+    });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
+
     <div className="formInput">
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         onSubmitCapture={handleSubmit}
+        onFinishFailed={onFinishFailed}
       >
-        <Form.Item label="Title" rules={[{ required: true }]}>
+        <Form.Item label="Title" rules={[{ required: true, message: 'Please add a title!' }]}>
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
 
-        <Form.Item label="Country" required>
+        <Form.Item label="Country">
           <Input value={country} onChange={(e) => setCountry(e.target.value)} />
         </Form.Item>
 
@@ -83,7 +98,7 @@ const Create = () => {
         </Form.Item> */}
           <Form.Item label="RangePicker">
           <RangePicker  onChange={(e) => {console.log(e?.[0]?.toDate())
-            setDate({
+            setDateRange({
                 start: e?.[0]?.toDate(),
                 end: e?.[1]?.toDate()
             })}
@@ -120,12 +135,12 @@ const Create = () => {
           </Upload>
         </Form.Item>
 
-        <Form.Item>
-          {!isPending && <Button htmlType="submit">Submit</Button>}
-          {isPending && <Button disabled>Adding your new travel...</Button>}
-        </Form.Item>
+        
+          {!isPending && <StandardButton htmlType="submit" onClick={openNotification}>Submit</StandardButton>}
+          {isPending && <StandardButton disabled>Adding your new travel...</StandardButton>}
+       
       </Form>
-      <h1>{JSON.stringify(date)}</h1>
+      {/* <h1>{JSON.stringify(dateRange)}</h1> */}
     </div>
   );
 };

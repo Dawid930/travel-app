@@ -62,6 +62,54 @@
       "author": "as",
       "travelCompanions": 1,
       "id": 7
+    },
+    {
+      "title": "",
+      "country": "",
+      "location": "",
+      "date": {
+        "start": "2022-08-29T09:22:45.592Z",
+        "end": "2022-08-29T09:22:45.592Z"
+      }
+    },
+    {
+      "title": "qwe",
+      "country": "qwe",
+      "location": "we",
+      "date": {
+        "start": "2022-08-23T09:30:56.324Z",
+        "end": "2022-08-30T09:30:56.324Z"
+      },
+      "description": "qwe",
+      "author": "gh",
+      "travelCompanions": 2,
+      "id": 8
+    },
+    {
+      "title": "",
+      "country": "",
+      "location": "",
+      "dateRange": {
+        "start": "2022-08-29T12:51:59.625Z",
+        "end": "2022-08-29T12:51:59.625Z"
+      },
+      "description": "",
+      "author": "",
+      "travelCompanions": "",
+      "id": 9
+    },
+    {
+      "title": "",
+      "country": "ds",
+      "location": "d",
+      "dateRange": {
+        "start": "2022-08-29T12:57:39.319Z",
+        "end": "2022-08-29T12:57:39.319Z"
+      },
+      "description": "",
+      "author": "",
+      "travelCompanions": "",
+      "id": 10
     }
   ]
 }
