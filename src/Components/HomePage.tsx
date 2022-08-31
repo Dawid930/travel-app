@@ -11,12 +11,14 @@ const Homepage = () => {
     const {data: travels, error} = useFetch('http://localhost:8000/travels')
     const { user, setUser } = useGlobalContext()
     //console.log(travels);
+    const guestUser = 'Guest'
     
   return (
     <>
     <UserDiv>
-      <h3>Welcome {user}</h3>
-      <button onClick={() => setUser('asd')}><LogoutOutlined/></button>
+      <h3>Welcome {user}!</h3>
+      {user === guestUser! || <button onClick={() => setUser('Guest')}><LogoutOutlined/>
+      </button>}
     </UserDiv>
     <div className='homePage'>
         {error && <div>{ error }</div>}

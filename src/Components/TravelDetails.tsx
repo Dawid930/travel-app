@@ -8,8 +8,16 @@ import { Form, Input, notification } from "antd";
 
 const { TextArea } = Input;
 
+type Days = {
+  dayNumber: string
+  dayDesc: string
+
+}
+
 const TravelDetails = () => {
-  const [dayDescription, setDayDescription] = useState("");
+  const [value, setValue] = useState<Days>({dayNumber:'', dayDesc:''});
+  const [list, setList] = useState([{dayNumber:'', dayDesc:''}])
+
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
   //const {data: travel, error, isPending,} = useFetch('http://localhost:8000/travels/' + id);
@@ -17,7 +25,6 @@ const TravelDetails = () => {
   const navigate = useNavigate();
 
   
-  console.log(travel);
   
   const openNotification = () => {
     notification.open({
@@ -26,6 +33,7 @@ const TravelDetails = () => {
     });
   };
   
+  //Deletes the whole travel
   const handleClick = () => {
     fetch("http://localhost:8000/travels/" + id, {
       method: "DELETE",
@@ -34,7 +42,7 @@ const TravelDetails = () => {
     });
   };
 
-  //Should be modified to handle new day additions
+/*   //Should be modified to handle new day additions
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const travelDays = {
@@ -50,9 +58,22 @@ const TravelDetails = () => {
     }).then(() => {
       console.log("new added");
       setIsPending(false);
-      navigate("/");
     });
-  };
+  }; */
+
+
+
+  const addToList = () =>{
+    
+    let arr = list
+    arr.push(value)
+    console.log(arr);
+    
+    setList(arr)
+    console.log(list);
+    
+    setValue({dayNumber:'', dayDesc:''})
+  }
 
   return (
     <>
@@ -69,23 +90,46 @@ const TravelDetails = () => {
           </div>
         )}
       </TravelDiv>
+
+
       <div className="day-addition">
         <DayDiv>
-          <h2>Day 1</h2>
-          <p>This was our first day</p>
-          <StandardButton>Modify</StandardButton>
+          <ul>
+            {list.length > 0 && list.map((item, i) => 
+            <li>
+              <h1>
+                {item.dayNumber}
+              </h1>
+              <p>
+                {item.dayDesc}
+              </p>
+              <StandardButton>Modify</StandardButton>
+            </li>)}
+          </ul>
         </DayDiv>
+
+
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
-          onSubmitCapture={handleSubmit}
+          onSubmitCapture={addToList}
+          
         >
-          <Form.Item label="Add new day">
+          <Form.Item label="Add day number">
+            <TextArea
+              rows={1}
+              value={value.dayNumber}
+              onChange={(e) => setValue({dayNumber: e.target.value, dayDesc:value.dayDesc})}
+              //onChange={(e) => console.log((e.target.value))}
+              
+            />
+          </Form.Item>
+          <Form.Item label="Add day description">
             <TextArea
               rows={4}
-              value={dayDescription}
-              onChange={(e) => setDayDescription(e.target.value)}
+              value={value.dayDesc}
+              onChange={(e) => setValue({dayDesc: e.target.value, dayNumber:value.dayNumber})}
             />
           </Form.Item>
           {!isPending && (

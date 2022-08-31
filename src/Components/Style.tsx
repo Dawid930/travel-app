@@ -37,7 +37,7 @@ export const TravelDiv = styled(`div`)(() => ({
 }));
 
 export const DayDiv = styled(`div`)(() => ({
-  height: "300px",
+  
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
