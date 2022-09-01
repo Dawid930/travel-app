@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, DatePicker, InputNumber, Upload, notification } from "antd";
+import { Form, Input, Button, DatePicker, InputNumber, Upload, notification, Rate } from "antd";
 import { StandardButton } from "./Style";
 
 
@@ -12,6 +12,8 @@ type DateSetter = {
     start: Date | undefined,
     end: Date | undefined
 }
+
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -24,6 +26,7 @@ const Create = () => {
     ""
   );
   const [isPending, setIsPending] = useState(false);
+  const [rating, setRating] = useState(3);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,6 +39,7 @@ const Create = () => {
       description,
       author,
       travelCompanions,
+      rating
     };
     console.log(travel);
 
@@ -124,6 +128,14 @@ const Create = () => {
             value={travelCompanions}
             onChange={(e) => setTravelCompanions(e)}
           />
+        </Form.Item>
+
+        <Form.Item label="Rating">
+          <span>
+            <Rate tooltips={desc} onChange={setRating} value={rating} />
+            {rating ? <span className="ant-rate-text">{desc[rating - 1]}</span> : ''}
+          </span>
+        
         </Form.Item>
 
         <Form.Item label="Upload" valuePropName="fileList">

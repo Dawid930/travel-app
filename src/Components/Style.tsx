@@ -5,16 +5,14 @@ import { Menu } from "antd";
 export const FormattedMenu = styled(Menu)(() => ({
   display: "flex",
   justifyContent: "right",
-
 }));
 
-export const UserDiv = styled('div')(() => ({
+export const UserDiv = styled("div")(() => ({
   display: "flex",
-  justifyContent:'right',
-  marginRight: '15px',
-  padding:"10px",
-  gap:"10px"
- 
+  justifyContent: "right",
+  marginRight: "15px",
+  padding: "10px",
+  gap: "10px",
 }));
 
 export const StandardButton = styled(Button)(() => ({
@@ -26,6 +24,7 @@ export const StandardButton = styled(Button)(() => ({
     borderColor: "red",
   },
 }));
+
 export const TravelDiv = styled(`div`)(() => ({
   height: "300px",
   display: "flex",
@@ -37,11 +36,13 @@ export const TravelDiv = styled(`div`)(() => ({
 }));
 
 export const DayDiv = styled(`div`)(() => ({
-  
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   padding: "20px",
   backgroundColor: "#f9f9f9",
+  li: {
+    listStyle: "none",
+  },
 }));

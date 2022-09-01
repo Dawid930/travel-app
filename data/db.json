@@ -114,6 +114,20 @@
     {
       "dayDescription": "asdasd",
       "id": 11
+    },
+    {
+      "title": "",
+      "country": "",
+      "location": "",
+      "dateRange": {
+        "start": "2022-09-01T09:29:27.347Z",
+        "end": "2022-09-01T09:29:27.347Z"
+      },
+      "description": "",
+      "author": "",
+      "travelCompanions": "",
+      "rating": 5,
+      "id": 12
     }
   ]
 }

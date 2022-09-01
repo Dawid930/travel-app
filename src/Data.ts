@@ -10,6 +10,7 @@ const data = [
         "description": "This was the best place ever. Nice beaches etc...",
         "author": "David",
         "travelCompanions": 2,
+        "rating": 3,
         "id": 1
       },
       {
@@ -23,6 +24,7 @@ const data = [
         "description": "This was the best place ever. Nice beaches etc...",
         "author": "David",
         "travelCompanions": 2,
+        "rating": 5,
         "id": 2
       }
     

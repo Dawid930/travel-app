@@ -4,15 +4,16 @@ import { Travels, Travel } from "../Interface/Travel";
 import useFetch from "./useFetch";
 import data from "../Data";
 import { DayDiv, StandardButton, TravelDiv } from "./Style";
-import { Form, Input, notification } from "antd";
+import { Form, Input, notification, Rate } from "antd";
 
 const { TextArea } = Input;
 
 type Days = {
   dayNumber: string
   dayDesc: string
-
 }
+
+const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const TravelDetails = () => {
   const [value, setValue] = useState<Days>({dayNumber:'', dayDesc:''});
@@ -86,24 +87,32 @@ const TravelDetails = () => {
             <h4>From: {JSON.stringify(travel.dateRange.start)}</h4>
             <h4>To: {JSON.stringify(travel.dateRange.end)}</h4>
             <h5>{travel.author}</h5>
+            <h5>
+              <Rate tooltips={desc} value={travel.rating} disabled />
+              {value ? (
+                <span className="ant-rate-text">{desc[travel.rating - 1]}</span>
+              ) : (
+                ""
+              )}
+            </h5>
             <StandardButton onClick={handleClick}>Delete</StandardButton>
           </div>
         )}
       </TravelDiv>
-
-
+      
       <div className="day-addition">
         <DayDiv>
+          {list.length <= 1 && <h1>Add new day below!</h1>}
           <ul>
-            {list.length > 0 && list.map((item, i) => 
-            <li>
+            {list.length > 0 && list.map((item) => 
+            <li key={item.dayNumber}>
               <h1>
-                {item.dayNumber}
+                {item.dayNumber && 'Day: '}{item.dayNumber}
               </h1>
               <p>
                 {item.dayDesc}
               </p>
-              <StandardButton>Modify</StandardButton>
+              {item.dayNumber && <StandardButton>Modify</StandardButton>}
             </li>)}
           </ul>
         </DayDiv>
