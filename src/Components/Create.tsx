@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, DatePicker, InputNumber, Upload, notification, Rate } from "antd";
+import { Form, Input, DatePicker, InputNumber, Upload, notification, Rate } from "antd";
 import { StandardButton } from "./Style";
 
 

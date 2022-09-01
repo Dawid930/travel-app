@@ -128,6 +128,20 @@
       "travelCompanions": "",
       "rating": 5,
       "id": 12
+    },
+    {
+      "title": "",
+      "country": "",
+      "location": "",
+      "dateRange": {
+        "start": "2022-09-07T10:42:31.234Z",
+        "end": "2022-10-07T10:42:31.234Z"
+      },
+      "description": "",
+      "author": "",
+      "travelCompanions": "",
+      "rating": 3,
+      "id": 13
     }
   ]
 }

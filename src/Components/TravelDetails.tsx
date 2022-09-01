@@ -4,7 +4,8 @@ import { Travels, Travel } from "../Interface/Travel";
 import useFetch from "./useFetch";
 import data from "../Data";
 import { DayDiv, StandardButton, TravelDiv } from "./Style";
-import { Form, Input, notification, Rate } from "antd";
+import { Form, Input, Rate } from "antd";
+import ButtonClassComponent from "./ButtonClassComponent";
 
 const { TextArea } = Input;
 
@@ -27,13 +28,7 @@ const TravelDetails = () => {
 
   
   
-  const openNotification = () => {
-    notification.open({
-      message: "Your new day added",
-      description: "Now you can see the newly added in the list",
-    });
-  };
-  
+
   //Deletes the whole travel
   const handleClick = () => {
     fetch("http://localhost:8000/travels/" + id, {
@@ -84,8 +79,8 @@ const TravelDetails = () => {
             <h2>{travel.title}</h2>
             <h3>{travel.location}</h3>
             <h4>{travel.description}</h4>
-            <h4>From: {JSON.stringify(travel.dateRange.start)}</h4>
-            <h4>To: {JSON.stringify(travel.dateRange.end)}</h4>
+            <h4>From: {(travel.dateRange.start)}</h4>
+            <h4>To: {(travel.dateRange.end)}</h4>
             <h5>{travel.author}</h5>
             <h5>
               <Rate tooltips={desc} value={travel.rating} disabled />
@@ -142,10 +137,7 @@ const TravelDetails = () => {
             />
           </Form.Item>
           {!isPending && (
-            <StandardButton htmlType="submit" onClick={openNotification}>
-              Submit
-            </StandardButton>
-          )}
+            <ButtonClassComponent/>)}
         </Form>
       </div>
     </>

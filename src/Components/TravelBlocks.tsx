@@ -21,7 +21,7 @@ const TravelBlocks = () => {
             <h4>{travel.country}</h4>
             <h4>{travel.location}</h4>
             <h4>{travel.description}</h4>
-            <h4>{JSON.stringify(travel.dateRange.start)}</h4>
+            <h4>{travel.dateRange.start}</h4>
             <h5>{travel.author}</h5>
             <span>
               <Rate tooltips={desc} value={travel.rating} disabled />

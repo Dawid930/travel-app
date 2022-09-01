@@ -2,7 +2,7 @@ import React from 'react'
 import TravelBlocks from './TravelBlocks'
 import useFetch from './useFetch'
 import { useGlobalContext } from './UserContext'
-import { HomeOutlined, PlusOutlined, TeamOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 import { UserDiv } from './Style';
 
 
