@@ -25,6 +25,13 @@ export const StandardButton = styled(Button)(() => ({
   },
 }));
 
+export const ButtonDiv = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "15px",
+}));
+
 export const TravelDiv = styled(`div`)(() => ({
   height: "300px",
   display: "flex",

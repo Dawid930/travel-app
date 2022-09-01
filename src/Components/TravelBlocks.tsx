@@ -3,8 +3,8 @@ import { Card, Rate } from "antd";
 import { Travels } from "../Interface/Travel";
 import { Link } from "react-router-dom";
 import data from "../Data";
-import { HomeOutlined, PlusOutlined, TeamOutlined } from "@ant-design/icons";
-import { StandardButton } from "./Style";
+import { PlusOutlined } from "@ant-design/icons";
+import { ButtonDiv, StandardButton } from "./Style";
 
 //<Link to={`/travels/${travel.id}`} />
 
@@ -33,7 +33,7 @@ const TravelBlocks = () => {
             </span>
             
             <Link to={`/travels/${travel.id}`}>
-              <StandardButton>More details</StandardButton>
+              <ButtonDiv><StandardButton>More details</StandardButton></ButtonDiv>
             </Link>
           </Card>
         </div>

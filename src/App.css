@@ -68,3 +68,13 @@ select {
   align-items: center;
   padding: 30px;
 }
+
+.form-input{
+  padding: 30px;
+}
+
+.form-input-head{
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}

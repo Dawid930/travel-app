@@ -25,7 +25,7 @@ class ButtonClassComponent extends React.Component{
 
         return (
             <div className="button-for-class">
-                <this.StandardButton onClick={this.openNotification} >Click to add new day!</this.StandardButton>
+                <this.StandardButton htmlType="submit" onClick={this.openNotification} >Click to add new day!</this.StandardButton>
             </div>
         )
     }

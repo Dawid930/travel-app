@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, DatePicker, InputNumber, Upload, notification, Rate } from "antd";
-import { StandardButton } from "./Style";
+import { ButtonDiv, StandardButton } from "./Style";
 
 
 const { RangePicker } = DatePicker;
@@ -70,7 +70,10 @@ const Create = () => {
 
   return (
 
-    <div className="formInput">
+    <div className="form-input">
+      <div className="form-input-head">
+        <h2>Fill the form to add new journey!</h2>
+      </div>
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
@@ -148,8 +151,8 @@ const Create = () => {
         </Form.Item>
 
         
-          {!isPending && <StandardButton htmlType="submit" onClick={openNotification}>Submit</StandardButton>}
-          {isPending && <StandardButton disabled>Adding your new travel...</StandardButton>}
+          {!isPending && <ButtonDiv><StandardButton htmlType="submit" onClick={openNotification}>Submit</StandardButton></ButtonDiv>}
+          {isPending && <ButtonDiv><StandardButton disabled>Adding your new travel...</StandardButton></ButtonDiv>}
        
       </Form>
       {/* <h1>{JSON.stringify(dateRange)}</h1> */}
