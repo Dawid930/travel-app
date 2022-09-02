@@ -16,8 +16,10 @@ export const UserDiv = styled("div")(() => ({
 }));
 
 export const StandardButton = styled(Button)(() => ({
-  padding: "5px 10px",
+  padding: "5px 20px",
   color: "red",
+  borderRadius:'50px',
+  borderColor:'red',
   ":hover": {
     color: "white",
     backgroundColor: "red",
@@ -53,3 +55,9 @@ export const DayDiv = styled(`div`)(() => ({
     listStyle: "none",
   },
 }));
+
+export const FormDayDiv = styled("div")(() => ({
+  padding: "15px",
+}));
+
+

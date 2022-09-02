@@ -38,7 +38,7 @@ const data = [
         "description": "This was the best place ever. Nice beaches etc...",
         "author": "David",
         "travelCompanions": 2,
-        "rating": 5,
+        "rating": 4,
         "id": 2
       },
       {
@@ -52,7 +52,7 @@ const data = [
         "description": "This was the best place ever. Nice beaches etc...",
         "author": "David",
         "travelCompanions": 2,
-        "rating": 5,
+        "rating": 2,
         "id": 2
       },
       {
@@ -66,7 +66,7 @@ const data = [
         "description": "This was the best place ever. Nice beaches etc...",
         "author": "David",
         "travelCompanions": 2,
-        "rating": 5,
+        "rating": 1,
         "id": 2
       },
     

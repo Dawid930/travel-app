@@ -7,6 +7,8 @@ class ButtonClassComponent extends React.Component{
         padding: "5px 10px",
         color: "white",
         backgroundColor:'red',
+        borderRadius:'50px',
+        borderColor:'red',
         ":hover": {
           color: "red",
           backgroundColor: "white",

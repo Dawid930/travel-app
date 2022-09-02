@@ -8,7 +8,7 @@ import { useGlobalContext } from './UserContext'
 
 
 const HomeIcon = styled(HomeOutlined)(() => ({
-  color: "blue",
+  //color: "blue",
   ':hover': {
     a:{
       color:'red'
