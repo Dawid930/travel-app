@@ -4,7 +4,7 @@ export type GlobalContent = {
   setUser: (c: string) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
-  user: "Guest", // set a default value
+  user: "Guest",
   setUser: () => {},
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

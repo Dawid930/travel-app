@@ -34,7 +34,7 @@ const TravelDetails = () => {
   const travel = data.find((travel) => travel.id === Number(id));
   const navigate = useNavigate();
 
-  //Deletes the whole travel
+
   const handleClick = () => {
     fetch("http://localhost:8000/travels/" + id, {
       method: "DELETE",
@@ -43,24 +43,6 @@ const TravelDetails = () => {
     });
   };
 
-  /*   //Should be modified to handle new day additions
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const travelDays = {
-      dayDescription,
-    };
-    console.log(travel);
-    setIsPending(true);
-
-    fetch("http://localhost:8000/travels/", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(travelDays),
-    }).then(() => {
-      console.log("new added");
-      setIsPending(false);
-    });
-  }; */
 
   const addToList = () => {
     setTravelList([...travelList, value]);
@@ -129,7 +111,6 @@ const TravelDetails = () => {
               onChange={(e) =>
                 setValue({ dayNumber: e.target.value, dayDesc: value.dayDesc })
               }
-              //onChange={(e) => console.log((e.target.value))}
             />
           </Form.Item>
           <Form.Item label="Add day description">

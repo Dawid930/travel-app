@@ -8,7 +8,6 @@ import { ButtonDiv, StandardButton } from "./Style";
 import { RATING_OPTIONS } from "./utils";
 import { format } from "date-fns";
 
-//<Link to={`/travels/${travel.id}`} />
 
 const TravelBlocks = () => {
   const [value, setValue] = useState(5);
