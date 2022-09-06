@@ -30,7 +30,6 @@ textarea {
 button,
 textarea,
 select {
-  appearance: none !important;
   border-radius: 0;
 }
 
@@ -62,18 +61,18 @@ select {
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
 }
 
-.button-for-class{
+.button-for-class {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
 }
 
-.form-input{
+.form-input {
   padding: 30px;
 }
 
-.form-input-head{
+.form-input-head {
   display: flex;
   justify-content: center;
   padding: 30px;

@@ -13,17 +13,19 @@ export const UserDiv = styled("div")(() => ({
   marginRight: "15px",
   padding: "10px",
   gap: "10px",
+  h3: {
+    marginBottom: "0em",
+  },
 }));
 
 export const StandardButton = styled(Button)(() => ({
   padding: "5px 20px",
   color: "red",
-  borderRadius:'50px',
-  borderColor:'red',
+  borderRadius: "50px",
+  borderColor: "red",
   ":hover": {
     color: "white",
     backgroundColor: "red",
-    borderColor: "red",
   },
 }));
 
@@ -60,4 +62,10 @@ export const FormDayDiv = styled("div")(() => ({
   padding: "15px",
 }));
 
-
+/* const HomeIcon = styled(HomeOutlined)(() => ({
+  color: "blue",
+  ':hover': {
+    color: 'red'
+}
+,
+})); */

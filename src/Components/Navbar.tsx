@@ -1,31 +1,26 @@
-import { HomeOutlined, PlusOutlined, TeamOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  PlusOutlined,
+  TeamOutlined,
+  UserOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { FormattedMenu } from "./Style";
-import { useGlobalContext } from './UserContext'
-
-
-const HomeIcon = styled(HomeOutlined)(() => ({
-  //color: "blue",
-  ':hover': {
-    a:{
-      color:'red'
-    }
-}, // ez miert nem mukodik???
-}));
+import { useGlobalContext } from "./UserContext";
 
 const items: MenuProps["items"] = [
-  
   {
     label: (
       <a href="/" rel="noopener noreferrer">
         Home
       </a>
     ),
-    key: 'home',
-    icon: <HomeIcon/>
+    key: "home",
+    icon: <HomeOutlined />,
   },
   {
     label: (
@@ -33,8 +28,8 @@ const items: MenuProps["items"] = [
         Create new journey
       </a>
     ),
-    key: 'create',
-    icon: <PlusOutlined />
+    key: "create",
+    icon: <PlusOutlined />,
   },
   {
     label: (
@@ -42,39 +37,35 @@ const items: MenuProps["items"] = [
         About
       </a>
     ),
-    key: 'about',
-    icon: <TeamOutlined />
+    key: "about",
+    icon: <TeamOutlined />,
   },
-  {label: (
+  {
+    label: (
       <a href="/login" rel="noopener noreferrer">
         Login
       </a>
     ),
-    key: 'login',
-    icon: <UserOutlined />
-    
+    key: "login",
+    icon: <UserOutlined />,
   },
 ];
 
 const Navbar: React.FC = () => {
-  const [current, setCurrent] = useState("mail"); // ant desinbol jon ? funkcio
-
-  
+  const [current, setCurrent] = useState("mail");
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
   };
 
- 
-
   return (
-      <FormattedMenu
-        onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        items={items}
-      />
+    <FormattedMenu
+      onClick={onClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+      items={items}
+    />
   );
 };
 

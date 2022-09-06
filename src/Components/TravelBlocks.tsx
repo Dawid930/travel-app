@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import data from "../Data";
 import { PlusOutlined } from "@ant-design/icons";
 import { ButtonDiv, StandardButton } from "./Style";
+import { RATING_OPTIONS } from "./utils";
+import { format } from "date-fns";
 
 //<Link to={`/travels/${travel.id}`} />
 
-const desc = ["terrible", "bad", "normal", "good", "wonderful"];
-
 const TravelBlocks = () => {
-    const [value, setValue] = useState(5);
+  const [value, setValue] = useState(5);
 
   return (
     <div className="travel-list">
@@ -21,19 +21,26 @@ const TravelBlocks = () => {
             <h4>{travel.country}</h4>
             <h4>{travel.location}</h4>
             <h4>{travel.description}</h4>
-            <h4>{travel.dateRange.start}</h4>
+            <h4>
+              From: {format(new Date(travel.dateRange?.start), "yyyy-MM-dd")}
+            </h4>
+            <h4>To: {format(new Date(travel.dateRange?.end), "yyyy-MM-dd")}</h4>
             <h5>{travel.author}</h5>
             <span>
-              <Rate tooltips={desc} value={travel.rating} disabled />
+              <Rate tooltips={RATING_OPTIONS} value={travel.rating} disabled />
               {value ? (
-                <span className="ant-rate-text">{desc[travel.rating - 1]}</span>
+                <span className="ant-rate-text">
+                  {RATING_OPTIONS[travel.rating - 1]}
+                </span>
               ) : (
                 ""
               )}
             </span>
-            
+
             <Link to={`/travels/${travel.id}`}>
-              <ButtonDiv><StandardButton>More details</StandardButton></ButtonDiv>
+              <ButtonDiv>
+                <StandardButton>More details</StandardButton>
+              </ButtonDiv>
             </Link>
           </Card>
         </div>

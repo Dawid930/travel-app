@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Travels, Travel } from "../Interface/Travel";
-import useFetch from "./useFetch";
+import useFetch from "../Components/useFetch";
 import data from "../Data";
-import { ButtonDiv, DayDiv, FormDayDiv, StandardButton, TravelDiv } from "./Style";
+import {
+  ButtonDiv,
+  DayDiv,
+  FormDayDiv,
+  StandardButton,
+  TravelDiv,
+} from "../Components/Style";
 import { Form, Input, Rate } from "antd";
-import ButtonClassComponent from "./ButtonClassComponent";
+import ButtonClassComponent from "../Components/ButtonClassComponent";
+import format from "date-fns/format";
+import { RATING_OPTIONS } from "../Components/utils";
 
 const { TextArea } = Input;
 
@@ -14,11 +22,11 @@ type Days = {
   dayDesc: string;
 };
 
-const desc = ["terrible", "bad", "normal", "good", "wonderful"];
-
 const TravelDetails = () => {
   const [value, setValue] = useState<Days>({ dayNumber: "", dayDesc: "" });
-  const [list, setList] = useState([{ dayNumber: "", dayDesc: "" }]);
+  const [travelList, setTravelList] = useState([
+    { dayNumber: "", dayDesc: "" },
+  ]);
 
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
@@ -55,12 +63,7 @@ const TravelDetails = () => {
   }; */
 
   const addToList = () => {
-    let arr = list;
-    arr.push(value);
-
-    setList(arr);
-    console.log(list);
-
+    setTravelList([...travelList, value]);
     setValue({ dayNumber: "", dayDesc: "" });
   };
 
@@ -72,41 +75,47 @@ const TravelDetails = () => {
             <h2>{travel.title}</h2>
             <h3>{travel.location}</h3>
             <h4>{travel.description}</h4>
-            <h4>From: {travel.dateRange.start}</h4>
-            <h4>To: {travel.dateRange.end}</h4>
+            <h4>
+              From: {format(new Date(travel.dateRange?.start), "yyyy-MM-dd")}
+            </h4>
+            <h4>To: {format(new Date(travel.dateRange?.end), "yyyy-MM-dd")}</h4>
+            <h5>Travel companions: {travel.travelCompanions}</h5>
             <h5>{travel.author}</h5>
             <h5>
-              <Rate tooltips={desc} value={travel.rating} disabled />
+              <Rate tooltips={RATING_OPTIONS} value={travel.rating} disabled />
               {value ? (
-                <span className="ant-rate-text">{desc[travel.rating - 1]}</span>
+                <span className="ant-rate-text">
+                  {RATING_OPTIONS[travel.rating - 1]}
+                </span>
               ) : (
                 ""
               )}
             </h5>
-            <ButtonDiv><StandardButton onClick={handleClick}>Delete</StandardButton></ButtonDiv>
+            <ButtonDiv>
+              <StandardButton onClick={handleClick}>Delete</StandardButton>
+            </ButtonDiv>
           </div>
         )}
       </TravelDiv>
 
+      <DayDiv>
+        {travelList.length <= 1 && <h1>Add new day below!</h1>}
+        <ul>
+          {travelList.length > 0 &&
+            travelList.map((item) => (
+              <li key={item.dayNumber}>
+                <h1>
+                  {item.dayNumber && "Day: "}
+                  {item.dayNumber}
+                </h1>
+                <p>{item.dayDesc}</p>
+                {item.dayNumber && <StandardButton>Modify</StandardButton>}
+              </li>
+            ))}
+        </ul>
+      </DayDiv>
 
-        <DayDiv>
-          {list.length <= 1 && <h1>Add new day below!</h1>}
-          <ul>
-            {list.length > 0 &&
-              list.map((item) => (
-                <li key={item.dayNumber}>
-                  <h1>
-                    {item.dayNumber && "Day: "}
-                    {item.dayNumber}
-                  </h1>
-                  <p>{item.dayDesc}</p>
-                  {item.dayNumber && <StandardButton>Modify</StandardButton>}
-                </li>
-              ))}
-          </ul>
-        </DayDiv>
-
-        <FormDayDiv>
+      <FormDayDiv>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
@@ -137,8 +146,7 @@ const TravelDetails = () => {
           </Form.Item>
           {!isPending && <ButtonClassComponent />}
         </Form>
-        </FormDayDiv>
-
+      </FormDayDiv>
     </>
   );
 };
