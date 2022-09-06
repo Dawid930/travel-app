@@ -1,0 +1,18 @@
+{
+  "travels": [
+    {
+      "title": "Best City",
+      "country": "Spain",
+      "location": "Malaga",
+      "dateRange": {
+        "start": "2022-09-06T09:30:42.372Z",
+        "end": "2022-09-20T09:30:42.372Z"
+      },
+      "description": "It was awesome",
+      "author": "David",
+      "travelCompanions": 1,
+      "rating": 5,
+      "id": 1
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+@import "~antd/dist/antd.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  box-sizing: border-box;
+  background: transparent;
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+a img {
+  border: none;
+}
+
+button,
+a {
+  cursor: pointer;
+  color: inherit;
+}
+
+textarea {
+  resize: none;
+}
+
+button,
+textarea,
+select {
+  border-radius: 0;
+}
+
+/* END OF CSS RESET */
+
+.site-card-border-less-wrapper {
+  padding: 30px;
+}
+.site-card-border-less-wrapper:hover {
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.travel-list {
+  display: flex;
+  flex-wrap: wrap;
+  background: #ececec;
+  align-items: center;
+}
+
+.plus-card {
+  display: flex;
+  justify-self: center;
+  text-align: center;
+  padding: 30px;
+  width: 300px;
+}
+
+.plus-card:hover {
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.button-for-class {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.form-input {
+  padding: 30px;
+}
+
+.form-input-head {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
