@@ -44,4 +44,26 @@ exports.Mutation = {
 
     return newTravelDay;
   },
+
+  updateTravel: (parent, { id, input }, { db }) => {
+    const index = db.travels.findIndex((travel) => travel.id === id);
+
+    if (index === -1) return null;
+    db.travels[index] = {
+      ...db.travels[index],
+      ...input,
+    };
+    return db.travels[index];
+  },
+
+  updateTravelDay: (parent, { id, input }, { db }) => {
+    const index = db.travelDays.findIndex((travelDay) => travelDay.id === id);
+
+    if (index === -1) return null;
+    db.travelDays[index] = {
+      ...db.travelDays[index],
+      ...input,
+    };
+    return db.travelDays[index];
+  },
 };
