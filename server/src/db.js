@@ -7,22 +7,22 @@ const travels = [
     author: "David",
     travelCompanions: 2,
     rating: 3,
-    id: 1,
+    id: "1",
   },
 ];
 
-let travelDays = [
+const travelDays = [
   {
-    id: 1,
+    id: "1",
     daynumber: 1,
     date: "2022-06-05",
     description: "We had a nice day on the beach",
     author: "David",
-    travelId: 1
+    travelId: "1",
   },
 ];
 
 exports.db = {
   travels,
-  travelDays
+  travelDays,
 };

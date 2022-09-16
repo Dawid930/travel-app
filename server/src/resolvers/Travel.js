@@ -1,6 +1,5 @@
-
 exports.Travel = {
-    travelDays: ({id}, args, {db}) => {
-        return db.travelDays.filter((travelDay) => travelDay.travelId === id)
-    }
-}
+  travelDays: ({ id }, args, { db }) => {
+    return db.travelDays.filter((travelDay) => travelDay.travelId === id);
+  },
+};

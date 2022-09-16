@@ -2,15 +2,16 @@ const { gql } = require("apollo-server");
 
 exports.typeDefs = gql`
   type Query {
-    travels: [Travels!]!
-    travelDays: [TravelDays!]!
+    travels: [Travel!]!
+    travel(id: ID!): Travel
   }
 
   type Mutation {
-    addTravel(input: AddTravelInput!): Travels!
+    addTravel(input: AddTravelInput!): Travel!
+    addTravelDay(input: AddTravelDayInput!): TravelDays!
   }
 
-  type Travels {
+  type Travel {
     id: ID!
     title: String!
     country: String!
@@ -28,7 +29,6 @@ exports.typeDefs = gql`
     date: String!
     description: String!
     author: String!
-    
   }
 
   input AddTravelInput {

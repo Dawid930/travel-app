@@ -23,8 +23,25 @@ exports.Mutation = {
       rating,
     };
 
-    db.travels.push(newTravel)
+    db.travels.push(newTravel);
 
-    return newTravel
+    return newTravel;
+  },
+
+  addTravelDay: (parent, { input }, { db }) => {
+    const { daynumber, date, description, author, travelId } = input;
+
+    const newTravelDay = {
+      id: uuid(),
+      daynumber,
+      date,
+      description,
+      author,
+      travelId,
+    };
+
+    db.travelDays.push(newTravelDay);
+
+    return newTravelDay;
   },
 };
