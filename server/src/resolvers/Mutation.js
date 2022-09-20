@@ -66,4 +66,15 @@ exports.Mutation = {
     };
     return db.travelDays[index];
   },
+
+  deleteTravel: (parent, {id}, {db}) => {
+    db.travels = db.travels.filter((travel) => travel.id !== id)
+    db.travelDays = db.travelDays.filter((travelDay) => travelDay.travelId !== id)
+    return true
+  },
+
+  deleteTravelDay: (parent, {id}, {db}) => {
+    db.travelDays = db.travelDays.filter((travelDay) => travelDay.id !== id)
+    return true
+  }
 };

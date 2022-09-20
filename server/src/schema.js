@@ -11,6 +11,8 @@ exports.typeDefs = gql`
     addTravelDay(input: AddTravelDayInput!): TravelDays!
     updateTravel(id: ID!, input: UpdateTravelInput!): Travel
     updateTravelDay(id: ID!, input: UpdateTravelDayInput!): TravelDays
+    deleteTravel(id: ID!): Boolean
+    deleteTravelDay(id: ID!): Boolean
   }
 
   type Travel {
