@@ -1,9 +1,11 @@
 const { ApolloServer } = require("apollo-server");
-const { typeDefs } = require("./schema");
+//const { typeDefs } = require("./schema");
 const { Query } = require("./resolvers/Query");
 const { Mutation } = require("./resolvers/Mutation");
 const { db } = require("./db");
 const { Travel } = require("./resolvers/Travel");
+const fs = require("fs");
+const path = require("path");
 
 const resolvers = {
   Query,
@@ -12,7 +14,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8"),
   resolvers,
   context: {
     db,

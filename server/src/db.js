@@ -8,6 +8,10 @@ const travels = [
     travelCompanions: 2,
     rating: 3,
     id: "1",
+    dateRange: {
+      start: "2022-08-23",
+      end: "2022-08-30"
+    },
   },
 ];
 
