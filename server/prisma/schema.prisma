@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Travel {
+  id               String       @id @default(uuid())
+  title            String
+  country          String
+  location         String
+  description      String
+  author           String
+  travelCompanions Int
+  rating           Int
+  travelDays       TravelDays[]
+}
+
+model TravelDays {
+  id          String @id @default(uuid())
+  daynumber   Int
+  date        String
+  description String
+  author      String
+  travelId    String
+  Travel      Travel @relation(fields: [travelId], references: [id])
+}
+
+

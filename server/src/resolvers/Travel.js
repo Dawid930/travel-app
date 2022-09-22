@@ -1,5 +1,8 @@
-exports.Travel = {
-  travelDays: ({ id }, args, { db }) => {
-    return db.travelDays.filter((travelDay) => travelDay.travelId === id);
-  },
+async function travelDays(parent, args, context) {
+  return await context.prisma.travelDays
+    .findMany({ where: { travelId: parent.id } })
+}
+
+module.exports = {
+  travelDays,
 };

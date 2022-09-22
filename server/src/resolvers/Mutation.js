@@ -1,80 +1,29 @@
-const { v4: uuid } = require("uuid");
+async function addTravel(parent, args, context, info) {
+  return await context.prisma.travel.create({
+    data: {
+      title: args.input.title,
+      country: args.input.country,
+      location: args.input.location,
+      description: args.input.description,
+      author: args.input.author,
+      travelCompanions: args.input.travelCompanions,
+      rating: args.input.rating,
+    },
+  });
+}
 
-exports.Mutation = {
-  addTravel: (parent, { input }, { db }) => {
-    const {
-      title,
-      country,
-      location,
-      description,
-      author,
-      travelCompanions,
-      rating,
-    } = input;
-
-    const newTravel = {
-      id: uuid(),
-      title,
-      country,
-      location,
-      description,
-      author,
-      travelCompanions,
-      rating,
-    };
-
-    db.travels.push(newTravel);
-
-    return newTravel;
-  },
-
-  addTravelDay: (parent, { input }, { db }) => {
-    const { daynumber, date, description, author, travelId } = input;
-
-    const newTravelDay = {
-      id: uuid(),
-      daynumber,
-      date,
-      description,
-      author,
-      travelId,
-    };
-
-    db.travelDays.push(newTravelDay);
-
-    return newTravelDay;
-  },
-
-  updateTravel: (parent, { id, input }, { db }) => {
-    const index = db.travels.findIndex((travel) => travel.id === id);
-
-    if (index === -1) return null;
-    db.travels[index] = {
-      ...db.travels[index],
-      ...input,
-    };
-    return db.travels[index];
-  },
-
-  updateTravelDay: (parent, { id, input }, { db }) => {
-    const index = db.travelDays.findIndex((travelDay) => travelDay.id === id);
-
-    if (index === -1) return null;
-    db.travelDays[index] = {
-      ...db.travelDays[index],
-      ...input,
-    };
-    return db.travelDays[index];
-  },
-
-  deleteTravel: (parent, {id}, {db}) => {
-    db.travels = db.travels.filter((travel) => travel.id !== id)
-    db.travelDays = db.travelDays.filter((travelDay) => travelDay.travelId !== id)
-    return true
-  },
-
-  deleteTravelDay: (parent, {id}, {db}) => {
-    db.travelDays = db.travelDays.filter((travelDay) => travelDay.id !== id)
-    return true
-  }
+async function addTravelDay(parent, args, context, info) {
+  return await context.prisma.travelDays.create({
+    data: {
+      daynumber: args.input.daynumber,
+      date: args.input.date,
+      description: args.input.description,
+      author: args.input.author,
+      travelId: args.input.travelId,
+    },
+  });
+}
+module.exports = {
+  addTravel,
+  addTravelDay
 };

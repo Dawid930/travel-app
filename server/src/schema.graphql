@@ -21,7 +21,7 @@ type Travel {
   author: String!
   travelCompanions: Int
   rating: Int
-  dateRange: DateRange!
+  dateRange: [DateRange]
   travelDays: [TravelDays]
 }
 
@@ -31,9 +31,16 @@ type TravelDays {
   date: String!
   description: String!
   author: String!
+  travelId: String!
 }
 
 type DateRange {
+  id: ID!
+  start: String!
+  end: String!
+}
+
+input DateRangeInput {
   start: String!
   end: String!
 }
