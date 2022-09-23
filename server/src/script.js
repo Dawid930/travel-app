@@ -5,20 +5,14 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // 3
-async function main() {
-  const newTravel = await prisma.travel.update({
+async function main(parent, { id, input }, context) {
+  const newTravel = await context.prisma.travel.update({
+    where: {
+        id: id
+    },
     data: {
-        title: "My journey to Dream islands",
-        country: "Dream islands",
-        location: "Vulkan city",
-        description: "This was the best place ever. Nice beaches etc...",
-        author: "David",
-        travelCompanions: 2,
-        rating: 3,
-        dateRange: {
-            start: "2022-05-05",
-            end: "2022-05-06"
-        }
+       ...context.prisma.travel,
+       input
     },
   });
   const allTravel = await prisma.travel.findMany();

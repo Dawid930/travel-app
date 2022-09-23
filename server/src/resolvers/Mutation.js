@@ -12,6 +12,21 @@ async function addTravel(parent, args, context, info) {
   });
 }
 
+async function updateTravel(parent, args, context, info) {
+  return await context.prisma.travel.update({
+    where: { id: args.id,},
+    data: {
+      title: args.input.title,
+      country: args.input.country,
+      location: args.input.location,
+      description: args.input.description,
+      author: args.input.author,
+      travelCompanions: args.input.travelCompanions,
+      rating: args.input.rating,
+    },
+  });
+}
+
 async function addTravelDay(parent, args, context, info) {
   return await context.prisma.travelDays.create({
     data: {
@@ -25,5 +40,6 @@ async function addTravelDay(parent, args, context, info) {
 }
 module.exports = {
   addTravel,
-  addTravelDay
+  addTravelDay,
+  updateTravel,
 };
