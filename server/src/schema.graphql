@@ -10,6 +10,8 @@ type Mutation {
   updateTravelDay(id: ID!, input: UpdateTravelDayInput!): TravelDays
   deleteTravel(id: ID!): Boolean
   deleteTravelDay(id: ID!): Boolean
+  signup(email: String!, password: String!, name: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
 }
 
 type Travel {
@@ -18,11 +20,11 @@ type Travel {
   country: String!
   location: String!
   description: String!
-  author: String!
   travelCompanions: Int
   rating: Int
   dateRange: [DateRange]
   travelDays: [TravelDays]
+  addedBy: User
 }
 
 type TravelDays {
@@ -30,8 +32,8 @@ type TravelDays {
   daynumber: Int!
   date: String!
   description: String!
-  author: String!
   travelId: String!
+  addedBy: User
 }
 
 type DateRange {
@@ -50,7 +52,6 @@ input AddTravelInput {
   country: String!
   location: String!
   description: String!
-  author: String!
   travelCompanions: Int!
   rating: Int!
 }
@@ -60,7 +61,6 @@ input UpdateTravelInput {
   country: String
   location: String
   description: String
-  author: String
   travelCompanions: Int
   rating: Int
 }
@@ -69,7 +69,6 @@ input AddTravelDayInput {
   daynumber: Int!
   date: String!
   description: String!
-  author: String!
   travelId: String!
 }
 
@@ -77,7 +76,18 @@ input UpdateTravelDayInput {
   daynumber: Int
   date: String
   description: String
-  author: String
   travelId: String
 }
 
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  travels: [Travel]
+  travelDays: [TravelDays]
+}

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 // 3
 async function main(parent, { id, input }, context) {
-  const newTravel = await context.prisma.travel.update({
+  const newTravel = await context.prisma.travel.delete({
     where: {
         id: id
     },

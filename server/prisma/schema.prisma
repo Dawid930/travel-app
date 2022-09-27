@@ -16,20 +16,29 @@ model Travel {
   country          String
   location         String
   description      String
-  author           String
   travelCompanions Int
   rating           Int
   travelDays       TravelDays[]
+  addedBy          User?        @relation(fields: [addedById], references: [id])
+  addedById        String?
 }
 
 model TravelDays {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   daynumber   Int
   date        String
   description String
-  author      String
+  travel      Travel  @relation(fields: [travelId], references: [id])
   travelId    String
-  Travel      Travel @relation(fields: [travelId], references: [id])
+  addedBy     User?   @relation(fields: [addedById], references: [id])
+  addedById   String?
 }
 
-
+model User {
+  id         String       @id @default(uuid())
+  name       String
+  email      String       @unique
+  password   String
+  travel     Travel[]
+  travelDays TravelDays[]
+}

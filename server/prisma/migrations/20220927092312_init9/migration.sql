@@ -1,0 +1,32 @@
+-- RedefineTables
+PRAGMA foreign_keys=OFF;
+CREATE TABLE "new_TravelDays" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "daynumber" INTEGER NOT NULL,
+    "date" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "travelId" TEXT,
+    "dayAddedById" TEXT,
+    CONSTRAINT "TravelDays_dayAddedById_fkey" FOREIGN KEY ("dayAddedById") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+INSERT INTO "new_TravelDays" ("date", "dayAddedById", "daynumber", "description", "id", "travelId") SELECT "date", "dayAddedById", "daynumber", "description", "id", "travelId" FROM "TravelDays";
+DROP TABLE "TravelDays";
+ALTER TABLE "new_TravelDays" RENAME TO "TravelDays";
+CREATE TABLE "new_Travel" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "travelCompanions" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "travelId" TEXT,
+    "addedById" TEXT,
+    CONSTRAINT "Travel_travelId_fkey" FOREIGN KEY ("travelId") REFERENCES "TravelDays" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "Travel_addedById_fkey" FOREIGN KEY ("addedById") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+INSERT INTO "new_Travel" ("addedById", "country", "description", "id", "location", "rating", "title", "travelCompanions") SELECT "addedById", "country", "description", "id", "location", "rating", "title", "travelCompanions" FROM "Travel";
+DROP TABLE "Travel";
+ALTER TABLE "new_Travel" RENAME TO "Travel";
+PRAGMA foreign_key_check;
+PRAGMA foreign_keys=ON;
