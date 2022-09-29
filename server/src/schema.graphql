@@ -8,8 +8,8 @@ type Mutation {
   addTravelDay(input: AddTravelDayInput!): TravelDays!
   updateTravel(id: ID!, input: UpdateTravelInput!): Travel
   updateTravelDay(id: ID!, input: UpdateTravelDayInput!): TravelDays
-  deleteTravel(id: ID!): Boolean
-  deleteTravelDay(id: ID!): Boolean
+  deleteTravel(id: ID!): Deleted
+  deleteTravelDay(id: ID!): Deleted
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
@@ -22,7 +22,7 @@ type Travel {
   description: String!
   travelCompanions: Int
   rating: Int
-  dateRange: [DateRange]
+  dateRange: DateRange!
   travelDays: [TravelDays]
   addedBy: User
 }
@@ -38,13 +38,13 @@ type TravelDays {
 
 type DateRange {
   id: ID!
-  start: String!
-  end: String!
+  start: String
+  end: String
 }
 
 input DateRangeInput {
-  start: String!
-  end: String!
+  start: String
+  end: String
 }
 
 input AddTravelInput {
@@ -54,6 +54,7 @@ input AddTravelInput {
   description: String!
   travelCompanions: Int!
   rating: Int!
+  dateRange: DateRangeInput
 }
 
 input UpdateTravelInput {
@@ -63,6 +64,7 @@ input UpdateTravelInput {
   description: String
   travelCompanions: Int
   rating: Int
+  dateRange: DateRangeInput
 }
 
 input AddTravelDayInput {
@@ -90,4 +92,8 @@ type User {
   email: String!
   travels: [Travel]
   travelDays: [TravelDays]
+}
+
+type Deleted {
+  deleted: Boolean
 }

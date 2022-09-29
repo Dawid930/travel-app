@@ -12,7 +12,6 @@ const { getUserId } = require("./utils");
 const resolvers = {
   Query,
   Mutation,
-  Travel,
 };
 
 const prisma = new PrismaClient();
@@ -25,6 +24,7 @@ const server = new ApolloServer({
       ...req,
       prisma,
       userId: req && req.headers.authorization ? getUserId(req) : null,
+      
     };
   },
 });

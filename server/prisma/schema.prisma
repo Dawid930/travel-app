@@ -18,6 +18,8 @@ model Travel {
   description      String
   travelCompanions Int
   rating           Int
+  dateRange        DateRange    @relation(fields: [dateRangeId], references: [id], onDelete: Cascade)
+  dateRangeId      String
   travelDays       TravelDays[]
   addedBy          User?        @relation(fields: [addedById], references: [id])
   addedById        String?
@@ -28,7 +30,7 @@ model TravelDays {
   daynumber   Int
   date        String
   description String
-  travel      Travel  @relation(fields: [travelId], references: [id])
+  travel      Travel  @relation(fields: [travelId], references: [id], onDelete: Cascade)
   travelId    String
   addedBy     User?   @relation(fields: [addedById], references: [id])
   addedById   String?
@@ -41,4 +43,11 @@ model User {
   password   String
   travel     Travel[]
   travelDays TravelDays[]
+}
+
+model DateRange {
+  id     String   @id @default(uuid())
+  start  String
+  end    String
+  Travel Travel[]
 }
