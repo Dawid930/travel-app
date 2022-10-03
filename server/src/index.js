@@ -1,6 +1,5 @@
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
-const Travel = require("./resolvers/Travel");
 const fs = require("fs");
 const path = require("path");
 

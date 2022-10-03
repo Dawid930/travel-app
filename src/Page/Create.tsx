@@ -12,6 +12,8 @@ import {
 } from "antd";
 import { ButtonDiv, StandardButton } from "../Components/Style";
 import { RATING_OPTIONS } from "../Components/utils";
+import { useMutation } from "@apollo/client";
+import { ADDTRAVEL_MUTATION } from "../Components/TravelMutation";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -38,17 +40,33 @@ const Create = () => {
     rating: 3,
   });
 
+  const [addTravel] = useMutation(ADDTRAVEL_MUTATION, {
+    variables: {
+      title: input.title,
+      country: input.country,
+      location: input.location,
+      description: input.description,
+      travelCompanions: input.travelCompanions,
+      rating: input.rating,
+      dateRange: {
+        start: input.dateRange.start,
+        end: input.dateRange.end
+      }
+    }
+  })
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setIsPending(true);
+    addTravel()
 
-    fetch("http://localhost:8000/travels/", {
+/*     fetch("http://localhost:8000/travels/", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(input),
     }).then(() => {
       console.log("new added");
       setIsPending(false);
-    });
+    }); */
   };
 
   const openNotification = () => {
@@ -118,13 +136,6 @@ const Create = () => {
             onChange={(e) =>
               setInput({ ...input, description: e.target.value })
             }
-          />
-        </Form.Item>
-
-        <Form.Item label="Author">
-          <Input
-            value={input.author}
-            onChange={(e) => setInput({ ...input, author: e.target.value })}
           />
         </Form.Item>
 

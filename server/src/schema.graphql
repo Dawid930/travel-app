@@ -1,5 +1,5 @@
 type Query {
-  travels: [Travel!]!
+  travels(skip: Int, take: Int): [Travel!]!
   travel(id: ID!): Travel
 }
 

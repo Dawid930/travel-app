@@ -19,8 +19,8 @@ function App() {
         <div className="content">
           <MyGlobalContext.Provider value={{ user, setUser }}>
             <Routes>
-              <Route path="/login" element={<Login />} />
               <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/create" element={<Create />} />
               <Route path="/about" element={<About />} />
               <Route path="/travels/:id" element={<TravelDetails />} />

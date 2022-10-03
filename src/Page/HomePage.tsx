@@ -5,8 +5,12 @@ import { useGlobalContext } from "../Components/UserContext";
 import { LogoutOutlined } from "@ant-design/icons";
 import { UserDiv } from "../Components/Style";
 
+import { useQuery, gql } from "@apollo/client";
+import {TRAVELS_QUERY} from "../Components/TravelQuery";
+
+
 const Homepage = () => {
-  const { data: travels, error } = useFetch("http://localhost:8000/travels");
+  const { data: travels, error } = useQuery(TRAVELS_QUERY);
   const { user, setUser } = useGlobalContext();
   const guestUser = "Guest";
 
@@ -21,7 +25,7 @@ const Homepage = () => {
         )}
       </UserDiv>
       <div className="homePage">
-        {error && <div>{error}</div>}
+       {/*  {error && <div>{error}</div>} */}
         {travels && <TravelBlocks />}
       </div>
     </>
