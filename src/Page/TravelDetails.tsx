@@ -12,7 +12,7 @@ import { Form, Input, Rate } from "antd";
 import ButtonClassComponent from "../Components/ButtonClassComponent";
 import format from "date-fns/format";
 import { RATING_OPTIONS } from "../Components/utils";
-import {TRAVEL_QUERY} from "../Components/TravelQuery";
+import {TRAVELDETAILS_QUERY} from "../Components/TravelQuery";
 import { useQuery } from "@apollo/client";
 
 const { TextArea } = Input;
@@ -31,7 +31,7 @@ const TravelDetails = () => {
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
   //const {data: travel, error, isPending,} = useFetch('http://localhost:8000/travels/' + id);
-  const {data} = useQuery(TRAVEL_QUERY)
+  const {data} = useQuery(TRAVELDETAILS_QUERY)
   const travel = data.find((travel) => travel.id === Number(id));
   const navigate = useNavigate();
 

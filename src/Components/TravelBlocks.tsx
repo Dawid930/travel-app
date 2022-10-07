@@ -7,12 +7,14 @@ import { ButtonDiv, StandardButton } from "./Style";
 import { RATING_OPTIONS } from "./utils";
 import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
-import {TRAVELS_QUERY} from "./TravelQuery";
+import { TRAVELS_QUERY } from "./TravelQuery";
+
 
 const TravelBlocks = () => {
   const [value, setValue] = useState(5);
 
-  const {data} = useQuery(TRAVELS_QUERY)
+
+  const { data } = useQuery(TRAVELS_QUERY);
 
   return (
     <div className="travel-list">

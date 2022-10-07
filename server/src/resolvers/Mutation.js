@@ -2,13 +2,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET, getUserId } = require("../utils");
 
-async function addTravel(parent, args, context, info) {
-
-  const { userId } = context;
- 
-
-  return await context.prisma.travel.create({
-    include: {dateRange: true, addedBy: true},
+async function addTravel(parent, args, { userId, prisma }, info) {
+  return await prisma.travel.create({
+    include: { dateRange: true, addedBy: true },
     data: {
       title: args.input.title,
       country: args.input.country,
@@ -20,17 +16,17 @@ async function addTravel(parent, args, context, info) {
       dateRange: {
         create: {
           start: args.input.dateRange.start,
-          end: args.input.dateRange.end
-        }
-      }
+          end: args.input.dateRange.end,
+        },
+      },
     },
   });
 }
 
-async function updateTravel(parent, args, context, info) {
-  return await context.prisma.travel.update({
+async function updateTravel(parent, args, { prisma }, info) {
+  return await prisma.travel.update({
     where: { id: args.id },
-    include: {dateRange: true},
+    include: { dateRange: true },
     data: {
       title: args.input.title,
       country: args.input.country,
@@ -41,27 +37,23 @@ async function updateTravel(parent, args, context, info) {
       dateRange: {
         create: {
           start: args.input.dateRange.start,
-          end: args.input.dateRange.end
-        }
-      }
+          end: args.input.dateRange.end,
+        },
+      },
     },
   });
 }
 
-async function deleteTravel(parent, args, context, info) {
-  const result = await context.prisma.travel.delete({
-    where: { id: args.id }
-    
+async function deleteTravel(parent, args, { prisma }, info) {
+  const result = await prisma.travel.delete({
+    where: { id: args.id },
   });
-  return {deleted: !!result}
+  return { deleted: !!result };
 }
 
-async function addTravelDay(parent, args, context, info) {
-
-  const { userId } = context;
-
-  return await context.prisma.travelDays.create({
-    include: {addedBy: true},
+async function addTravelDay(parent, args, { userId, prisma }, info) {
+  return await prisma.travelDays.create({
+    include: { addedBy: true },
     data: {
       daynumber: args.input.daynumber,
       date: args.input.date,
@@ -72,8 +64,8 @@ async function addTravelDay(parent, args, context, info) {
   });
 }
 
-async function updateTravelDay(parent, args, context, info) {
-  return await context.prisma.travelDays.update({
+async function updateTravelDay(parent, args, { prisma }, info) {
+  return await prisma.travelDays.update({
     where: { id: args.id },
     data: {
       daynumber: args.input.daynumber,
@@ -84,16 +76,16 @@ async function updateTravelDay(parent, args, context, info) {
   });
 }
 
-async function deleteTravelDay(parent, args, context, info) {
-  const result = await context.prisma.travelDays.delete({
+async function deleteTravelDay(parent, args, { prisma }, info) {
+  const result = await prisma.travelDays.delete({
     where: { id: args.id },
   });
-  return {deleted: !!result}
+  return { deleted: !!result };
 }
 
-async function signup(parent, args, context, info) {
+async function signup(parent, args, { prisma }, info) {
   const password = await bcrypt.hash(args.password, 10);
-  const user = await context.prisma.user.create({
+  const user = await prisma.user.create({
     data: { ...args, password },
   });
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
@@ -103,8 +95,8 @@ async function signup(parent, args, context, info) {
   };
 }
 
-async function login(parent, args, context, info) {
-  const user = await context.prisma.user.findUnique({
+async function login(parent, args, { prisma }, info) {
+  const user = await prisma.user.findUnique({
     where: { email: args.email },
   });
   if (!user) {

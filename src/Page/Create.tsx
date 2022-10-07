@@ -12,8 +12,9 @@ import {
 } from "antd";
 import { ButtonDiv, StandardButton } from "../Components/Style";
 import { RATING_OPTIONS } from "../Components/utils";
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import { ADDTRAVEL_MUTATION } from "../Components/TravelMutation";
+import { TRAVELDETAILS_QUERY, TRAVELS_QUERY } from "../Components/TravelQuery";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -35,31 +36,23 @@ const Create = () => {
       end: new Date(),
     },
     description: "",
-    author: "",
     travelCompanions: "",
     rating: 3,
   });
 
-  const [addTravel] = useMutation(ADDTRAVEL_MUTATION, {
-    variables: {
-      title: input.title,
-      country: input.country,
-      location: input.location,
-      description: input.description,
-      travelCompanions: input.travelCompanions,
-      rating: input.rating,
-      dateRange: {
-        start: input.dateRange.start,
-        end: input.dateRange.end
-      }
-    }
-  })
+  const [addTravel] = useMutation(ADDTRAVEL_MUTATION);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setIsPending(true);
-    addTravel()
+    addTravel({
+      variables: {
+        input,
+      },
+      refetchQueries: [{ query: TRAVELS_QUERY }],
+    });
+    setIsPending(false);
 
-/*     fetch("http://localhost:8000/travels/", {
+    /*     fetch("http://localhost:8000/travels/", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(input),

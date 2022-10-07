@@ -10,41 +10,41 @@ import { Menu } from "antd";
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { FormattedMenu } from "./Style";
-import { useGlobalContext } from "./UserContext";
+import { Link } from "react-router-dom";
 
 const items: MenuProps["items"] = [
   {
     label: (
-      <a href="/" rel="noopener noreferrer">
+      <Link to="/" rel="noopener noreferrer">
         Home
-      </a>
+      </Link>
     ),
     key: "home",
     icon: <HomeOutlined />,
   },
   {
     label: (
-      <a href="/create" rel="noopener noreferrer">
+      <Link to="/create" rel="noopener noreferrer">
         Create new journey
-      </a>
+      </Link>
     ),
     key: "create",
     icon: <PlusOutlined />,
   },
   {
     label: (
-      <a href="/about" rel="noopener noreferrer">
+      <Link to="/about" rel="noopener noreferrer">
         About
-      </a>
+      </Link>
     ),
     key: "about",
     icon: <TeamOutlined />,
   },
   {
     label: (
-      <a href="/login" rel="noopener noreferrer">
+      <Link to="/login" rel="noopener noreferrer">
         Login
-      </a>
+      </Link>
     ),
     key: "login",
     icon: <UserOutlined />,

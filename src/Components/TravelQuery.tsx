@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const TRAVELS_QUERY = gql`
-{
+query TravelQuery {
   travels {
     title
     country
@@ -17,9 +17,9 @@ export const TRAVELS_QUERY = gql`
   }
 }
 `
-export const TRAVEL_QUERY = gql`
-{
-  travels {
+export const TRAVELDETAILS_QUERY = gql`
+query TravelDetailsQuery {
+  travel {
     title
     country
     location
@@ -35,3 +35,12 @@ export const TRAVEL_QUERY = gql`
 }
 `
 
+export const USER_QUERY = gql`
+query UserQuery {
+  user{
+    name
+    email
+    id
+  }
+}
+`

@@ -6,7 +6,7 @@ const travels = async (parent, args, context) => {
       addedBy: true,
     },
     skip: args.skip,
-    take: args.take
+    take: args.take,
   });
 };
 
@@ -21,7 +21,14 @@ const travel = async (parent, args, context) => {
   });
 };
 
+const user = async (parent, args, context) => {
+  return await context.prisma.user.findUnique({
+    where: { id: args.id },
+  });
+};
+
 module.exports = {
   travels,
   travel,
+  user,
 };

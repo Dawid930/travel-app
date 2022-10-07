@@ -7,17 +7,18 @@ import Navbar from "./Components/Navbar";
 import Create from "./Page/Create";
 import TravelDetails from "./Page/TravelDetails";
 import Login from "./Page/Login";
-import { MyGlobalContext } from "./Components/UserContext";
+//import { MyGlobalContext } from "./Components/UserContext";
+import { LoginContextProvider } from "./Components/UserContext";
 
 function App() {
-  const [user, setUser] = useState<string>("Guest");
+  //const [userContext, setUserContext] = useState<string>("Guest");
 
   return (
-    <BrowserRouter>
-      <div className="app">
-        <Navbar />
-        <div className="content">
-          <MyGlobalContext.Provider value={{ user, setUser }}>
+    <LoginContextProvider>
+      <BrowserRouter>
+        <div className="app">
+          <Navbar />
+          <div className="content">
             <Routes>
               <Route path="/" element={<Homepage />} />
               <Route path="/login" element={<Login />} />
@@ -25,11 +26,29 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/travels/:id" element={<TravelDetails />} />
             </Routes>
-          </MyGlobalContext.Provider>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </LoginContextProvider>
   );
+  /* return (
+    <BrowserRouter>
+      <MyGlobalContext.Provider value={{ userContext, setUserContext }}>
+        <div className="app">
+          <Navbar />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/travels/:id" element={<TravelDetails />} />
+            </Routes>
+          </div>
+        </div>
+      </MyGlobalContext.Provider>
+    </BrowserRouter>
+  ); */
 }
 
 export default App;
