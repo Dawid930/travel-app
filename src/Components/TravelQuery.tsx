@@ -18,8 +18,8 @@ query TravelQuery {
 }
 `
 export const TRAVELDETAILS_QUERY = gql`
-query TravelDetailsQuery {
-  travel {
+query TravelDetailsQuery ($id: ID!) {
+  travel (id: $id) {
     title
     country
     location

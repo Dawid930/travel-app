@@ -56,7 +56,6 @@ async function addTravelDay(parent, args, { userId, prisma }, info) {
     include: { addedBy: true },
     data: {
       daynumber: args.input.daynumber,
-      date: args.input.date,
       description: args.input.description,
       travelId: args.input.travelId,
       addedById: userId,

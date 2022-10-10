@@ -3,7 +3,6 @@ import {
   PlusOutlined,
   TeamOutlined,
   UserOutlined,
-  LogoutOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";

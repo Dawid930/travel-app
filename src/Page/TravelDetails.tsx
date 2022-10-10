@@ -8,67 +8,80 @@ import {
   StandardButton,
   TravelDiv,
 } from "../Components/Style";
-import { Form, Input, Rate } from "antd";
+import { Form, Input, InputNumber, Rate } from "antd";
 import ButtonClassComponent from "../Components/ButtonClassComponent";
 import format from "date-fns/format";
 import { RATING_OPTIONS } from "../Components/utils";
-import {TRAVELDETAILS_QUERY} from "../Components/TravelQuery";
-import { useQuery } from "@apollo/client";
+import { TRAVELDETAILS_QUERY } from "../Components/TravelQuery";
+import { useMutation, useQuery } from "@apollo/client";
+import { ADDTRAVELDAY_MUTATION } from "../Components/TravelMutation";
 
 const { TextArea } = Input;
 
 type Days = {
-  dayNumber: string;
-  dayDesc: string;
+  daynumber: number;
+  description: string;
+  travelId: string;
 };
 
 const TravelDetails = () => {
-  const [value, setValue] = useState<Days>({ dayNumber: "", dayDesc: "" });
+  const [value, setValue] = useState<Days>({
+    daynumber: null,
+    description: "",
+    travelId: "",
+  });
   const [travelList, setTravelList] = useState([
-    { dayNumber: "", dayDesc: "" },
+    { daynumber: null, description: "" },
   ]);
 
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
-  //const {data: travel, error, isPending,} = useFetch('http://localhost:8000/travels/' + id);
-  const {data} = useQuery(TRAVELDETAILS_QUERY)
-  const travel = data.find((travel) => travel.id === Number(id));
+  const { data } = useQuery(TRAVELDETAILS_QUERY, {
+    variables: {
+      id: id,
+    },
+  });
+
+  const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
+
   const navigate = useNavigate();
 
-
-  const handleClick = () => {
-    fetch("http://localhost:8000/travels/" + id, {
-      method: "DELETE",
-    }).then(() => {
-      navigate("/");
-    });
-  };
-
+  const handleClick = () => {};
 
   const addToList = () => {
+    addTravelDay({
+      variables: {
+        input: value,
+      },
+    });
     setTravelList([...travelList, value]);
-    setValue({ dayNumber: "", dayDesc: "" });
+    setValue({ daynumber: null, description: "", travelId: id });
   };
+  const defautSetting = 0;
 
   return (
     <>
       <TravelDiv>
-        {travel && (
+        {data && (
           <div className="travel-page-item">
-            <h2>{travel.title}</h2>
-            <h3>{travel.location}</h3>
-            <h4>{travel.description}</h4>
-            <h4>
-              From: {format(new Date(travel.dateRange?.start), "yyyy-MM-dd")}
+            <h2>{data.travel.title}</h2>
+            <h3>{data.travel.location}</h3>
+            <h4>{data.travel.description}</h4>
+            {/* <h4>
+              From: {format(new Date(data.dateRange?.start), "yyyy-MM-dd")}
             </h4>
-            <h4>To: {format(new Date(travel.dateRange?.end), "yyyy-MM-dd")}</h4>
-            <h5>Travel companions: {travel.travelCompanions}</h5>
-            <h5>{travel.author}</h5>
+            <h4>To: {format(new Date(data.dateRange?.end), "yyyy-MM-dd")}</h4> */}
+            <h5>Travel companions: {data.travel.travelCompanions}</h5>
+            <h5>{data.travel.author}</h5>
             <h5>
-              <Rate tooltips={RATING_OPTIONS} value={travel.rating} disabled />
+              <Rate
+                tooltips={RATING_OPTIONS}
+                value={data.travel.rating}
+                disabled
+              />
               {value ? (
                 <span className="ant-rate-text">
-                  {RATING_OPTIONS[travel.rating - 1]}
+                  {RATING_OPTIONS[data.travel.rating - 1]}
                 </span>
               ) : (
                 ""
@@ -86,13 +99,13 @@ const TravelDetails = () => {
         <ul>
           {travelList.length > 0 &&
             travelList.map((item) => (
-              <li key={item.dayNumber}>
+              <li key={item.daynumber}>
                 <h1>
-                  {item.dayNumber && "Day: "}
-                  {item.dayNumber}
+                  {item.daynumber && "Day: "}
+                  {item.daynumber}
                 </h1>
-                <p>{item.dayDesc}</p>
-                {item.dayNumber && <StandardButton>Modify</StandardButton>}
+                <p>{item.description}</p>
+                {item.daynumber && <StandardButton>Modify</StandardButton>}
               </li>
             ))}
         </ul>
@@ -106,22 +119,27 @@ const TravelDetails = () => {
           onSubmitCapture={addToList}
         >
           <Form.Item label="Add day number">
-            <TextArea
-              rows={1}
-              value={value.dayNumber}
+            <InputNumber
+              defaultValue={defautSetting}
+              value={value.daynumber}
               onChange={(e) =>
-                setValue({ dayNumber: e.target.value, dayDesc: value.dayDesc })
+                setValue({
+                  daynumber: e,
+                  description: value.description,
+                  travelId: id,
+                })
               }
             />
           </Form.Item>
           <Form.Item label="Add day description">
             <TextArea
               rows={4}
-              value={value.dayDesc}
+              value={value.description}
               onChange={(e) =>
                 setValue({
-                  dayDesc: e.target.value,
-                  dayNumber: value.dayNumber,
+                  description: e.target.value,
+                  daynumber: value.daynumber,
+                  travelId: id,
                 })
               }
             />

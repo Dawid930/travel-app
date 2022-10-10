@@ -7,6 +7,14 @@ export const ADDTRAVEL_MUTATION = gql`
         description
     }
     }
-  
+`;
+export const ADDTRAVELDAY_MUTATION = gql`
+  mutation AddTravelDay($input: AddTravelDayInput!) {
+    addTravelDay(input: $input) {
+        daynumber
+        description
+        travelId
+    }
+    }
 `;
 

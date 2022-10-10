@@ -28,7 +28,6 @@ model Travel {
 model TravelDays {
   id          String  @id @default(uuid())
   daynumber   Int
-  date        String
   description String
   travel      Travel  @relation(fields: [travelId], references: [id], onDelete: Cascade)
   travelId    String

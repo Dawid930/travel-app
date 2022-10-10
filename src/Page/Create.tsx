@@ -12,9 +12,9 @@ import {
 } from "antd";
 import { ButtonDiv, StandardButton } from "../Components/Style";
 import { RATING_OPTIONS } from "../Components/utils";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ADDTRAVEL_MUTATION } from "../Components/TravelMutation";
-import { TRAVELDETAILS_QUERY, TRAVELS_QUERY } from "../Components/TravelQuery";
+import { TRAVELS_QUERY } from "../Components/TravelQuery";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -52,14 +52,6 @@ const Create = () => {
     });
     setIsPending(false);
 
-    /*     fetch("http://localhost:8000/travels/", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(input),
-    }).then(() => {
-      console.log("new added");
-      setIsPending(false);
-    }); */
   };
 
   const openNotification = () => {

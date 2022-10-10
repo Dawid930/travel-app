@@ -30,10 +30,9 @@ type Travel {
 
 type TravelDays {
   id: ID!
-  daynumber: Int!
-  date: String!
-  description: String!
-  travelId: String!
+  daynumber: Int
+  description: String
+  travelId: String
   addedBy: User
 }
 
@@ -69,10 +68,9 @@ input UpdateTravelInput {
 }
 
 input AddTravelDayInput {
-  daynumber: Int!
-  date: String!
-  description: String!
-  travelId: String!
+  daynumber: Int
+  description: String
+  travelId: String
 }
 
 input UpdateTravelDayInput {
