@@ -18,3 +18,11 @@ export const ADDTRAVELDAY_MUTATION = gql`
     }
 `;
 
+export const DELETETRAVELDAY_MUTATION = gql`
+  mutation DeleteTravelDay($id: ID!) {
+    deleteTravelDay(id: $id) {
+        deleted
+    }
+    }
+`;
+

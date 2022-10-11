@@ -30,17 +30,25 @@ const TravelDetails = () => {
     description: "",
     travelId: "",
   });
-  const [travelList, setTravelList] = useState([
-    { daynumber: null, description: "" },
-  ]);
+  
 
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
-  const { data } = useQuery(TRAVELDETAILS_QUERY, {
+  const { data, error } = useQuery(TRAVELDETAILS_QUERY, {
     variables: {
       id: id,
     },
   });
+
+    console.log(error);
+    console.log(data);
+    
+    
+/*  const [travelList, setTravelList] = useState([
+    { daynumber: null, description: "" },
+  ]);  */
+  
+  //setTravelList([{daynumber: data.travel.travelDays.daynumber, description: data.travel.travelDays.description }])
 
   const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
 
@@ -49,13 +57,15 @@ const TravelDetails = () => {
   const handleClick = () => {};
 
   const addToList = () => {
+    setIsPending(true)
     addTravelDay({
       variables: {
         input: value,
       },
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, 'TravelDetailsQuery'],    
     });
-    setTravelList([...travelList, value]);
     setValue({ daynumber: null, description: "", travelId: id });
+    setIsPending(false)
   };
   const defautSetting = 0;
 
@@ -88,6 +98,7 @@ const TravelDetails = () => {
               )}
             </h5>
             <ButtonDiv>
+              <StandardButton onClick={handleClick}>Update</StandardButton>
               <StandardButton onClick={handleClick}>Delete</StandardButton>
             </ButtonDiv>
           </div>
@@ -95,17 +106,18 @@ const TravelDetails = () => {
       </TravelDiv>
 
       <DayDiv>
-        {travelList.length <= 1 && <h1>Add new day below!</h1>}
+        {data?.travel?.travelDays.length >0 || <h1>Add new day below!</h1>}
         <ul>
-          {travelList.length > 0 &&
-            travelList.map((item) => (
-              <li key={item.daynumber}>
+          {data?.travel?.travelDays &&
+            data?.travel?.travelDays?.map((item, index) => (
+              <li key={index}>
                 <h1>
                   {item.daynumber && "Day: "}
                   {item.daynumber}
                 </h1>
                 <p>{item.description}</p>
                 {item.daynumber && <StandardButton>Modify</StandardButton>}
+                {item.daynumber && <StandardButton>Delete</StandardButton>}
               </li>
             ))}
         </ul>
@@ -116,7 +128,7 @@ const TravelDetails = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
-          onSubmitCapture={addToList}
+          onFinish={addToList}
         >
           <Form.Item label="Add day number">
             <InputNumber

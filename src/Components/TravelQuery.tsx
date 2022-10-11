@@ -31,6 +31,10 @@ query TravelDetailsQuery ($id: ID!) {
       start
       end
     }
+    travelDays {
+      daynumber
+      description
+    }
   }
 }
 `
