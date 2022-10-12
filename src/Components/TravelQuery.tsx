@@ -34,6 +34,7 @@ query TravelDetailsQuery ($id: ID!) {
     travelDays {
       daynumber
       description
+      id
     }
   }
 }

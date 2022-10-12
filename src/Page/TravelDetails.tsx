@@ -12,9 +12,13 @@ import { Form, Input, InputNumber, Rate } from "antd";
 import ButtonClassComponent from "../Components/ButtonClassComponent";
 import format from "date-fns/format";
 import { RATING_OPTIONS } from "../Components/utils";
-import { TRAVELDETAILS_QUERY } from "../Components/TravelQuery";
+import { TRAVELDETAILS_QUERY, TRAVELS_QUERY } from "../Components/TravelQuery";
 import { useMutation, useQuery } from "@apollo/client";
-import { ADDTRAVELDAY_MUTATION } from "../Components/TravelMutation";
+import {
+  ADDTRAVELDAY_MUTATION,
+  DELETETRAVELDAY_MUTATION,
+  DELETETRAVEL_MUTATION,
+} from "../Components/TravelMutation";
 
 const { TextArea } = Input;
 
@@ -30,7 +34,6 @@ const TravelDetails = () => {
     description: "",
     travelId: "",
   });
-  
 
   const [isPending, setIsPending] = useState(false);
   const { id } = useParams();
@@ -40,32 +43,44 @@ const TravelDetails = () => {
     },
   });
 
-    console.log(error);
-    console.log(data);
-    
-    
-/*  const [travelList, setTravelList] = useState([
-    { daynumber: null, description: "" },
-  ]);  */
-  
-  //setTravelList([{daynumber: data.travel.travelDays.daynumber, description: data.travel.travelDays.description }])
-
   const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
+  const [deleteTravel] = useMutation(DELETETRAVEL_MUTATION);
+  const [deleteTravelDay] = useMutation(DELETETRAVELDAY_MUTATION);
 
   const navigate = useNavigate();
 
   const handleClick = () => {};
 
+  const deleteJourney = () => {
+    
+    deleteTravel({
+      variables: {
+        id: id,
+      },
+      refetchQueries: [{ query: TRAVELS_QUERY }]
+    });
+    navigate("/")
+  };
+
+  const deleteDay = (travelDayId) => {
+    deleteTravelDay({
+      variables: {
+        id: travelDayId,
+      },
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, "TravelDetailsQuery"],
+    });
+  };
+
   const addToList = () => {
-    setIsPending(true)
+    setIsPending(true);
     addTravelDay({
       variables: {
         input: value,
       },
-      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, 'TravelDetailsQuery'],    
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, "TravelDetailsQuery"],
     });
     setValue({ daynumber: null, description: "", travelId: id });
-    setIsPending(false)
+    setIsPending(false);
   };
   const defautSetting = 0;
 
@@ -99,14 +114,14 @@ const TravelDetails = () => {
             </h5>
             <ButtonDiv>
               <StandardButton onClick={handleClick}>Update</StandardButton>
-              <StandardButton onClick={handleClick}>Delete</StandardButton>
+              <StandardButton onClick={deleteJourney}>Delete</StandardButton>
             </ButtonDiv>
           </div>
         )}
       </TravelDiv>
 
       <DayDiv>
-        {data?.travel?.travelDays.length >0 || <h1>Add new day below!</h1>}
+        {data?.travel?.travelDays.length > 0 || <h1>Add new day below!</h1>}
         <ul>
           {data?.travel?.travelDays &&
             data?.travel?.travelDays?.map((item, index) => (
@@ -117,7 +132,11 @@ const TravelDetails = () => {
                 </h1>
                 <p>{item.description}</p>
                 {item.daynumber && <StandardButton>Modify</StandardButton>}
-                {item.daynumber && <StandardButton>Delete</StandardButton>}
+                {item.daynumber && (
+                  <StandardButton onClick={() => deleteDay(item.id)}>
+                    Delete
+                  </StandardButton>
+                )}
               </li>
             ))}
         </ul>
