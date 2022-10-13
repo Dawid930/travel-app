@@ -8,7 +8,7 @@ import {
   StandardButton,
   TravelDiv,
 } from "../Components/Style";
-import { Form, Input, InputNumber, Rate } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Rate, DatePicker } from "antd";
 import ButtonClassComponent from "../Components/ButtonClassComponent";
 import format from "date-fns/format";
 import { RATING_OPTIONS } from "../Components/utils";
@@ -18,9 +18,11 @@ import {
   ADDTRAVELDAY_MUTATION,
   DELETETRAVELDAY_MUTATION,
   DELETETRAVEL_MUTATION,
+  UPDATETRAVEL_MUTATION,
 } from "../Components/TravelMutation";
 
 const { TextArea } = Input;
+const { RangePicker } = DatePicker;
 
 type Days = {
   daynumber: number;
@@ -35,7 +37,12 @@ const TravelDetails = () => {
     travelId: "",
   });
 
+
+
   const [isPending, setIsPending] = useState(false);
+  const [modal2Open, setModal2Open] = useState(false);
+
+
   const { id } = useParams();
   const { data, error } = useQuery(TRAVELDETAILS_QUERY, {
     variables: {
@@ -43,23 +50,50 @@ const TravelDetails = () => {
     },
   });
 
+  const [travelDetails, setTravelDetails] = useState({
+    title: data?.travel?.title,
+    country: data?.travel?.country,
+    location: data?.travel?.location,
+    dateRange: {
+      start: data?.travel?.dateRange.start,
+      end: data?.travel?.dateRange.end,
+    },
+    description: data?.travel?.description,
+    travelCompanions: data?.travel?.travelCompanions,
+    rating: data?.travel?.rating,
+  })
+  
+
   const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
+  const [updateTravel] = useMutation(UPDATETRAVEL_MUTATION);
   const [deleteTravel] = useMutation(DELETETRAVEL_MUTATION);
   const [deleteTravelDay] = useMutation(DELETETRAVELDAY_MUTATION);
 
   const navigate = useNavigate();
 
-  const handleClick = () => {};
+  const updateJourneyModal = () => {
+    setModal2Open(true)
+  };
+
+  const updateJourney = () =>{
+    updateTravel({
+      variables: {
+        input: travelDetails,
+        id: id
+      },
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY}, "TravelDetailsQuery"]
+    });
+    setModal2Open(false)
+  }
 
   const deleteJourney = () => {
-    
     deleteTravel({
       variables: {
         id: id,
       },
-      refetchQueries: [{ query: TRAVELS_QUERY }]
+      refetchQueries: [{ query: TRAVELS_QUERY }],
     });
-    navigate("/")
+    navigate("/");
   };
 
   const deleteDay = (travelDayId) => {
@@ -83,6 +117,7 @@ const TravelDetails = () => {
     setIsPending(false);
   };
   const defautSetting = 0;
+
 
   return (
     <>
@@ -113,7 +148,7 @@ const TravelDetails = () => {
               )}
             </h5>
             <ButtonDiv>
-              <StandardButton onClick={handleClick}>Update</StandardButton>
+              <StandardButton onClick={updateJourneyModal}>Update</StandardButton>
               <StandardButton onClick={deleteJourney}>Delete</StandardButton>
             </ButtonDiv>
           </div>
@@ -131,7 +166,7 @@ const TravelDetails = () => {
                   {item.daynumber}
                 </h1>
                 <p>{item.description}</p>
-                {item.daynumber && <StandardButton>Modify</StandardButton>}
+                {item.daynumber && <StandardButton>Update</StandardButton>}
                 {item.daynumber && (
                   <StandardButton onClick={() => deleteDay(item.id)}>
                     Delete
@@ -178,6 +213,92 @@ const TravelDetails = () => {
           {!isPending && <ButtonClassComponent />}
         </Form>
       </FormDayDiv>
+
+      <Modal
+        title="Update your travel"
+        centered
+        visible={modal2Open}
+        onOk={() => updateJourney()}
+        onCancel={() => setModal2Open(false)}
+      >
+      <Form
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
+        layout="horizontal"
+        //onFinish={handleSubmit}
+        //onFinishFailed={onFinishFailed}
+      >
+        <Form.Item
+          label="Title"
+          rules={[{ required: true, message: "Please add a title!" }]}
+        >
+          <Input
+            value={travelDetails.title}
+            onChange={(e) => setTravelDetails({ ...travelDetails, title: e.target.value })}
+          />
+        </Form.Item>
+
+        <Form.Item label="Country">
+          <Input
+            value={travelDetails.country}
+            onChange={(e) => setTravelDetails({ ...travelDetails, country: e.target.value })}
+          />
+        </Form.Item>
+
+        <Form.Item label="Location">
+          <Input
+            value={travelDetails.location}
+            onChange={(e) => setTravelDetails({ ...travelDetails, location: e.target.value })}
+          />
+        </Form.Item>
+
+        <Form.Item label="RangePicker">
+          <RangePicker
+            onChange={(e) => {
+              setTravelDetails({
+                ...travelDetails,
+                dateRange: { start: e?.[0]?.toDate(), end: e?.[1]?.toDate() },
+              });
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item label="Description">
+          <TextArea
+            rows={4}
+            value={travelDetails.description}
+            onChange={(e) =>
+              setTravelDetails({ ...travelDetails, description: e.target.value })
+            }
+          />
+        </Form.Item>
+
+        <Form.Item label="Travel companions">
+          <InputNumber
+            defaultValue={defautSetting}
+            value={travelDetails.travelCompanions}
+            onChange={(e) => setTravelDetails({ ...travelDetails, travelCompanions: e })}
+          />
+        </Form.Item>
+
+        <Form.Item label="Rating">
+          <span>
+            <Rate
+              tooltips={RATING_OPTIONS}
+              onChange={(e) => setTravelDetails({ ...travelDetails, rating: e })}
+              value={travelDetails.rating}
+            />
+            {travelDetails.rating ? (
+              <span className="ant-rate-text">
+                {RATING_OPTIONS[travelDetails.rating - 1]}
+              </span>
+            ) : (
+              ""
+            )}
+          </span>
+        </Form.Item>
+      </Form>
+      </Modal>
     </>
   );
 };

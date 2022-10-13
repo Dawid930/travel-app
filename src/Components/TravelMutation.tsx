@@ -18,6 +18,15 @@ export const ADDTRAVELDAY_MUTATION = gql`
   }
 `;
 
+export const UPDATETRAVEL_MUTATION = gql`
+  mutation UpdateTravel($id: ID!, $input: UpdateTravelInput!) {
+    updateTravel(id: $id, input: $input) {
+      title
+      description
+    }
+  }
+`;
+
 export const DELETETRAVEL_MUTATION = gql`
   mutation DeleteTravel($id: ID!) {
     deleteTravel(id: $id) {
