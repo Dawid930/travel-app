@@ -21,6 +21,15 @@ const travel = async (parent, args, context) => {
   });
 };
 
+const travelDay = async (parent, args, context) => {
+  return await context.prisma.travelDays.findUnique({
+    where: { id: args.id },
+    include: {
+      addedBy: true,
+    },
+  });
+};
+
 const user = async (parent, args, context) => {
   return await context.prisma.user.findUnique({
     where: { id: args.id },
@@ -30,5 +39,6 @@ const user = async (parent, args, context) => {
 module.exports = {
   travels,
   travel,
+  travelDay,
   user,
 };

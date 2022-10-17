@@ -32,10 +32,21 @@ query TravelDetailsQuery ($id: ID!) {
       end
     }
     travelDays {
+      id
       daynumber
       description
-      id
+      travelId
     }
+  }
+}
+`
+export const TRAVELDAY_QUERY = gql`
+query TravelDayQuery ($id: ID!) {
+  travelDay (id: $id) {
+      id
+      daynumber
+      description
+      travelId
   }
 }
 `

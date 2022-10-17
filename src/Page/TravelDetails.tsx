@@ -8,16 +8,29 @@ import {
   StandardButton,
   TravelDiv,
 } from "../Components/Style";
-import { Button, Form, Input, InputNumber, Modal, Rate, DatePicker } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Rate,
+  DatePicker,
+} from "antd";
 import ButtonClassComponent from "../Components/ButtonClassComponent";
 import format from "date-fns/format";
 import { RATING_OPTIONS } from "../Components/utils";
-import { TRAVELDETAILS_QUERY, TRAVELS_QUERY } from "../Components/TravelQuery";
+import {
+  TRAVELDAY_QUERY,
+  TRAVELDETAILS_QUERY,
+  TRAVELS_QUERY,
+} from "../Components/TravelQuery";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   ADDTRAVELDAY_MUTATION,
   DELETETRAVELDAY_MUTATION,
   DELETETRAVEL_MUTATION,
+  UPDATETRAVELDAY_MUTATION,
   UPDATETRAVEL_MUTATION,
 } from "../Components/TravelMutation";
 
@@ -37,11 +50,9 @@ const TravelDetails = () => {
     travelId: "",
   });
 
-
-
   const [isPending, setIsPending] = useState(false);
-  const [modal2Open, setModal2Open] = useState(false);
-
+  const [travelDetailsModal, setTravelDetailsModal] = useState(false);
+  const [travelDayModal, setTravelDayModal] = useState(false);
 
   const { id } = useParams();
   const { data, error } = useQuery(TRAVELDETAILS_QUERY, {
@@ -49,6 +60,43 @@ const TravelDetails = () => {
       id: id,
     },
   });
+
+  const [travelDayId, setTravelDayId] = useState();
+  const [travelDay, setTravelDay] = useState({
+    daynumber: null,
+    description: "",
+    id: "",
+    travelId: "",
+  });
+
+  const updateJourneyModal = () => {
+    setTravelDetailsModal(true);
+  };
+
+  const getIdOfTravelDay = idOfTravelDay => {
+    setTravelDayId(idOfTravelDay)
+  }
+
+  
+  const { data: day } = useQuery(TRAVELDAY_QUERY, {
+    variables: {
+      id: travelDayId,
+    },
+    
+  });
+  const updateJourneyDayModal = () => {
+    setTravelDay({
+      daynumber: day?.travelDay?.daynumber,
+      description: day?.travelDay?.description,
+      id: day?.travelDay?.id,
+      travelId: day?.travelDay?.travelId,
+    });
+    setTravelDayModal(true);
+    
+  };
+
+  console.log(travelDay);
+  
 
   const [travelDetails, setTravelDetails] = useState({
     title: data?.travel?.title,
@@ -61,30 +109,39 @@ const TravelDetails = () => {
     description: data?.travel?.description,
     travelCompanions: data?.travel?.travelCompanions,
     rating: data?.travel?.rating,
-  })
-  
+  });
 
   const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
   const [updateTravel] = useMutation(UPDATETRAVEL_MUTATION);
+  const [updateTravelDay] = useMutation(UPDATETRAVELDAY_MUTATION);
   const [deleteTravel] = useMutation(DELETETRAVEL_MUTATION);
   const [deleteTravelDay] = useMutation(DELETETRAVELDAY_MUTATION);
 
   const navigate = useNavigate();
 
-  const updateJourneyModal = () => {
-    setModal2Open(true)
-  };
+  console.log(travelDayId);
 
-  const updateJourney = () =>{
+  const updateJourney = () => {
     updateTravel({
       variables: {
         input: travelDetails,
-        id: id
+        id: id,
       },
-      refetchQueries: [{ query: TRAVELDETAILS_QUERY}, "TravelDetailsQuery"]
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, "TravelDetailsQuery"],
     });
-    setModal2Open(false)
-  }
+    setTravelDetailsModal(false);
+  };
+
+  const updateJourneyDay = () => {
+    updateTravelDay({
+      variables: {
+        input: travelDay,
+        id: travelDayId,
+      },
+      refetchQueries: [{ query: TRAVELDETAILS_QUERY }, "TravelDetailsQuery"],
+    });
+    setTravelDayModal(false);
+  };
 
   const deleteJourney = () => {
     deleteTravel({
@@ -117,7 +174,7 @@ const TravelDetails = () => {
     setIsPending(false);
   };
   const defautSetting = 0;
-
+  const minimum = 0;
 
   return (
     <>
@@ -148,7 +205,9 @@ const TravelDetails = () => {
               )}
             </h5>
             <ButtonDiv>
-              <StandardButton onClick={updateJourneyModal}>Update</StandardButton>
+              <StandardButton onClick={updateJourneyModal}>
+                Update
+              </StandardButton>
               <StandardButton onClick={deleteJourney}>Delete</StandardButton>
             </ButtonDiv>
           </div>
@@ -166,7 +225,13 @@ const TravelDetails = () => {
                   {item.daynumber}
                 </h1>
                 <p>{item.description}</p>
-                {item.daynumber && <StandardButton>Update</StandardButton>}
+                {item.daynumber && (
+                  <StandardButton
+                    onClick={() => {getIdOfTravelDay(item.id); updateJourneyDayModal()}}
+                  >
+                    Update
+                  </StandardButton>
+                )}
                 {item.daynumber && (
                   <StandardButton onClick={() => deleteDay(item.id)}>
                     Delete
@@ -187,6 +252,7 @@ const TravelDetails = () => {
           <Form.Item label="Add day number">
             <InputNumber
               defaultValue={defautSetting}
+              min={minimum}
               value={value.daynumber}
               onChange={(e) =>
                 setValue({
@@ -217,87 +283,133 @@ const TravelDetails = () => {
       <Modal
         title="Update your travel"
         centered
-        visible={modal2Open}
+        visible={travelDetailsModal}
         onOk={() => updateJourney()}
-        onCancel={() => setModal2Open(false)}
+        onCancel={() => setTravelDetailsModal(false)}
       >
-      <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
-        layout="horizontal"
-        //onFinish={handleSubmit}
-        //onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Title"
-          rules={[{ required: true, message: "Please add a title!" }]}
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
         >
-          <Input
-            value={travelDetails.title}
-            onChange={(e) => setTravelDetails({ ...travelDetails, title: e.target.value })}
-          />
-        </Form.Item>
+          <Form.Item
+            label="Title"
+            rules={[{ required: true, message: "Please add a title!" }]}
+          >
+            <Input
+              value={travelDetails.title}
+              onChange={(e) =>
+                setTravelDetails({ ...travelDetails, title: e.target.value })
+              }
+            />
+          </Form.Item>
 
-        <Form.Item label="Country">
-          <Input
-            value={travelDetails.country}
-            onChange={(e) => setTravelDetails({ ...travelDetails, country: e.target.value })}
-          />
-        </Form.Item>
+          <Form.Item label="Country">
+            <Input
+              value={travelDetails.country}
+              onChange={(e) =>
+                setTravelDetails({ ...travelDetails, country: e.target.value })
+              }
+            />
+          </Form.Item>
 
-        <Form.Item label="Location">
-          <Input
-            value={travelDetails.location}
-            onChange={(e) => setTravelDetails({ ...travelDetails, location: e.target.value })}
-          />
-        </Form.Item>
+          <Form.Item label="Location">
+            <Input
+              value={travelDetails.location}
+              onChange={(e) =>
+                setTravelDetails({ ...travelDetails, location: e.target.value })
+              }
+            />
+          </Form.Item>
 
-        <Form.Item label="RangePicker">
-          <RangePicker
-            onChange={(e) => {
-              setTravelDetails({
-                ...travelDetails,
-                dateRange: { start: e?.[0]?.toDate(), end: e?.[1]?.toDate() },
-              });
-            }}
-          />
-        </Form.Item>
+          <Form.Item label="RangePicker">
+            <RangePicker
+              onChange={(e) => {
+                setTravelDetails({
+                  ...travelDetails,
+                  dateRange: { start: e?.[0]?.toDate(), end: e?.[1]?.toDate() },
+                });
+              }}
+            />
+          </Form.Item>
 
-        <Form.Item label="Description">
-          <TextArea
-            rows={4}
-            value={travelDetails.description}
+          <Form.Item label="Description">
+            <TextArea
+              rows={4}
+              value={travelDetails.description}
+              onChange={(e) =>
+                setTravelDetails({
+                  ...travelDetails,
+                  description: e.target.value,
+                })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item label="Travel companions">
+            <InputNumber
+              defaultValue={defautSetting}
+              min={minimum}
+              value={travelDetails.travelCompanions}
+              onChange={(e) =>
+                setTravelDetails({ ...travelDetails, travelCompanions: e })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item label="Rating">
+            <span>
+              <Rate
+                tooltips={RATING_OPTIONS}
+                onChange={(e) =>
+                  setTravelDetails({ ...travelDetails, rating: e })
+                }
+                value={travelDetails.rating}
+              />
+              {travelDetails.rating ? (
+                <span className="ant-rate-text">
+                  {RATING_OPTIONS[travelDetails.rating - 1]}
+                </span>
+              ) : (
+                ""
+              )}
+            </span>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title="Update your travel day"
+        centered
+        visible={travelDayModal}
+        onOk={() => updateJourneyDay()}
+        onCancel={() => setTravelDayModal(false)}
+      >
+        <Form.Item label="Add day number">
+          <InputNumber
+            defaultValue={defautSetting}
+            min={minimum}
+            value={travelDay.daynumber}
             onChange={(e) =>
-              setTravelDetails({ ...travelDetails, description: e.target.value })
+              setTravelDay({
+                ...travelDay,
+                daynumber: e,
+              })
             }
           />
         </Form.Item>
-
-        <Form.Item label="Travel companions">
-          <InputNumber
-            defaultValue={defautSetting}
-            value={travelDetails.travelCompanions}
-            onChange={(e) => setTravelDetails({ ...travelDetails, travelCompanions: e })}
+        <Form.Item label="Add day description">
+          <TextArea
+            rows={4}
+            value={travelDay.description}
+            onChange={(e) =>
+              setTravelDay({
+                ...travelDay,
+                description: e.target.value,
+              })
+            }
           />
         </Form.Item>
-
-        <Form.Item label="Rating">
-          <span>
-            <Rate
-              tooltips={RATING_OPTIONS}
-              onChange={(e) => setTravelDetails({ ...travelDetails, rating: e })}
-              value={travelDetails.rating}
-            />
-            {travelDetails.rating ? (
-              <span className="ant-rate-text">
-                {RATING_OPTIONS[travelDetails.rating - 1]}
-              </span>
-            ) : (
-              ""
-            )}
-          </span>
-        </Form.Item>
-      </Form>
       </Modal>
     </>
   );

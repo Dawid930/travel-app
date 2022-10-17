@@ -36,7 +36,7 @@ const Create = () => {
       end: new Date(),
     },
     description: "",
-    travelCompanions: "",
+    travelCompanions: 0,
     rating: 3,
   });
 
@@ -66,6 +66,7 @@ const Create = () => {
   };
 
   const defautSetting = "0";
+  const minimum = 0
 
   return (
     <div className="form-input">
@@ -126,7 +127,7 @@ const Create = () => {
 
         <Form.Item label="Travel companions">
           <InputNumber
-            defaultValue={defautSetting}
+            min={minimum}
             value={input.travelCompanions}
             onChange={(e) => setInput({ ...input, travelCompanions: e })}
           />
