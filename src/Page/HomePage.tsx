@@ -12,7 +12,11 @@ import { useContext } from "react";
 
 const Homepage = () => {
  
-  const { data: travels, error } = useQuery(TRAVELS_QUERY);
+  const { data: travels, error } = useQuery(TRAVELS_QUERY, {
+    variables: {
+      showDetails: true
+    }
+  });
   //const { userContext, setUserContext } = useGlobalContext();
   const loginContext = useContext(LoginContext)
   const guestUser = "Guest";

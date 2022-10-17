@@ -25,7 +25,7 @@ import {
   TRAVELDETAILS_QUERY,
   TRAVELS_QUERY,
 } from "../Components/TravelQuery";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   ADDTRAVELDAY_MUTATION,
   DELETETRAVELDAY_MUTATION,
@@ -73,30 +73,29 @@ const TravelDetails = () => {
     setTravelDetailsModal(true);
   };
 
-  const getIdOfTravelDay = idOfTravelDay => {
-    setTravelDayId(idOfTravelDay)
-  }
+  const getIdOfTravelDay = (idOfTravelDay) => {
+    setTravelDayId(idOfTravelDay);
+  };
 
-  
-  const { data: day } = useQuery(TRAVELDAY_QUERY, {
-    variables: {
-      id: travelDayId,
-    },
-    
-  });
-  const updateJourneyDayModal = () => {
-    setTravelDay({
+  const [getTravelDay, { data: day }] = useLazyQuery(TRAVELDAY_QUERY);
+
+  const updateJourneyDayModal = async (dayId) => {
+    await getTravelDay({
+      variables: {
+        id: dayId,
+      },
+    });
+     setTravelDay({
       daynumber: day?.travelDay?.daynumber,
       description: day?.travelDay?.description,
       id: day?.travelDay?.id,
       travelId: day?.travelDay?.travelId,
     });
+
     setTravelDayModal(true);
-    
   };
 
   console.log(travelDay);
-  
 
   const [travelDetails, setTravelDetails] = useState({
     title: data?.travel?.title,
@@ -118,8 +117,6 @@ const TravelDetails = () => {
   const [deleteTravelDay] = useMutation(DELETETRAVELDAY_MUTATION);
 
   const navigate = useNavigate();
-
-  console.log(travelDayId);
 
   const updateJourney = () => {
     updateTravel({
@@ -227,7 +224,10 @@ const TravelDetails = () => {
                 <p>{item.description}</p>
                 {item.daynumber && (
                   <StandardButton
-                    onClick={() => {getIdOfTravelDay(item.id); updateJourneyDayModal()}}
+                    onClick={() => {
+                      getIdOfTravelDay(item.id);
+                      updateJourneyDayModal(item.id);
+                    }}
                   >
                     Update
                   </StandardButton>
@@ -389,7 +389,7 @@ const TravelDetails = () => {
           <InputNumber
             defaultValue={defautSetting}
             min={minimum}
-            value={travelDay.daynumber}
+            value={travelDay?.daynumber}
             onChange={(e) =>
               setTravelDay({
                 ...travelDay,
@@ -401,7 +401,7 @@ const TravelDetails = () => {
         <Form.Item label="Add day description">
           <TextArea
             rows={4}
-            value={travelDay.description}
+            value={travelDay?.description}
             onChange={(e) =>
               setTravelDay({
                 ...travelDay,

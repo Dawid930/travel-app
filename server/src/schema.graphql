@@ -1,5 +1,5 @@
 type Query {
-  travels(skip: Int, take: Int): [Travel!]!
+  travels(skip: Int, take: Int,): [Travel!]!
   travel(id: ID!): Travel
   travelDay(id: ID!): TravelDays
   user(id: ID!): User
@@ -18,10 +18,10 @@ type Mutation {
 
 type Travel {
   id: ID!
-  title: String!
-  country: String!
-  location: String!
-  description: String!
+  title: String
+  country: String
+  location: String
+  description: String
   travelCompanions: Int
   rating: Int
   dateRange: DateRange

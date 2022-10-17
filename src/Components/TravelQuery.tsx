@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const TRAVELS_QUERY = gql`
-query TravelQuery {
+query TravelQuery($showDetails: Boolean!) {
   travels {
     title
     country
-    location
-    description
-    travelCompanions
-    rating
+    location @include(if: $showDetails)
+    description @include(if: $showDetails)
+    travelCompanions @include(if: $showDetails)
+    rating @include(if: $showDetails)
     id
     dateRange {
       start

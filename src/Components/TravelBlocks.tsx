@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Rate } from "antd";
+import { Card, Rate, Switch } from "antd";
 import { Travels } from "../Interface/Travel";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
@@ -13,23 +13,35 @@ import { TRAVELS_QUERY } from "./TravelQuery";
 const TravelBlocks = () => {
   const [value, setValue] = useState(5);
 
+  const[details, setDetails] = useState(false)
 
-  const { data } = useQuery(TRAVELS_QUERY);
+  const showDetails = (checked: boolean) => {
+    setDetails(checked)
+  };
+
+  const { data } = useQuery(TRAVELS_QUERY, {
+    variables: {
+      showDetails: details
+    },
+  });
+
 
   return (
     <div className="travel-list">
       {data.travels.map((travel) => (
         <div className="site-card-border-less-wrapper" key={travel.id}>
           <Card title={travel.title} bordered={false} style={{ width: 300 }}>
+          <Switch onChange={showDetails} />
             <h4>{travel.country}</h4>
-            <h4>{travel.location}</h4>
-            <h4>{travel.description}</h4>
+            {travel.location && <h4>Location: {travel.location}</h4>}
+            {travel.description && <h4>Description: {travel.description}</h4>}
+            {travel.companions && <h4>Travel companions: {travel.travelCompanions}</h4>}
             <h4>
               From: {format(new Date(travel.dateRange?.start), "yyyy-MM-dd")}
             </h4>
             <h4>To: {format(new Date(travel.dateRange?.end), "yyyy-MM-dd")}</h4>
             <h5>{travel.author}</h5>
-            <span>
+            {travel.rating &&<span>
               <Rate tooltips={RATING_OPTIONS} value={travel.rating} disabled />
               {value ? (
                 <span className="ant-rate-text">
@@ -38,7 +50,7 @@ const TravelBlocks = () => {
               ) : (
                 ""
               )}
-            </span>
+            </span>}
 
             <Link to={`/travels/${travel.id}`}>
               <ButtonDiv>
