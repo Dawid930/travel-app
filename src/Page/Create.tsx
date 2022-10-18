@@ -48,10 +48,24 @@ const Create = () => {
       variables: {
         input,
       },
-      refetchQueries: [{ query: TRAVELS_QUERY }],
+      refetchQueries: [
+        { query: TRAVELS_QUERY, variables: { showDetails: true } },
+        "TravelQuery",
+      ],
     });
     setIsPending(false);
-
+    setInput({
+      title: "",
+      country: "",
+      location: "",
+      dateRange: {
+        start: new Date(),
+        end: new Date(),
+      },
+      description: "",
+      travelCompanions: 0,
+      rating: 3,
+    });
   };
 
   const openNotification = () => {
@@ -65,8 +79,7 @@ const Create = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const defautSetting = "0";
-  const minimum = 0
+  const minimum = 0;
 
   return (
     <div className="form-input">

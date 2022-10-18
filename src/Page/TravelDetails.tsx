@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Travels, Travel } from "../Interface/Travel";
 import {
@@ -77,38 +77,54 @@ const TravelDetails = () => {
     setTravelDayId(idOfTravelDay);
   };
 
-  const [getTravelDay, { data: day }] = useLazyQuery(TRAVELDAY_QUERY);
+  const [getDay, { data: day }] = useLazyQuery(TRAVELDAY_QUERY);
 
-  const updateJourneyDayModal = async (dayId) => {
-    await getTravelDay({
-      variables: {
-        id: dayId,
-      },
-    });
-     setTravelDay({
+  useEffect(() => {
+    setTravelDay({
       daynumber: day?.travelDay?.daynumber,
       description: day?.travelDay?.description,
       id: day?.travelDay?.id,
       travelId: day?.travelDay?.travelId,
     });
+  }, [day]);
+
+  const updateJourneyDayModal = (dayId) => {
+    getDay({
+      variables: {
+        id: dayId,
+      },
+    });
 
     setTravelDayModal(true);
   };
 
-  console.log(travelDay);
-
   const [travelDetails, setTravelDetails] = useState({
-    title: data?.travel?.title,
-    country: data?.travel?.country,
-    location: data?.travel?.location,
+    title: "",
+    country: "",
+    location: "",
     dateRange: {
-      start: data?.travel?.dateRange.start,
-      end: data?.travel?.dateRange.end,
+      start: new Date(),
+      end: new Date(),
     },
-    description: data?.travel?.description,
-    travelCompanions: data?.travel?.travelCompanions,
-    rating: data?.travel?.rating,
+    description: "",
+    travelCompanions: null,
+    rating: null,
   });
+
+  useEffect(() => {
+    setTravelDetails({
+      title: data?.travel?.title,
+      country: data?.travel?.country,
+      location: data?.travel?.location,
+      dateRange: {
+        start: data?.travel?.dateRange.start,
+        end: data?.travel?.dateRange.end,
+      },
+      description: data?.travel?.description,
+      travelCompanions: data?.travel?.travelCompanions,
+      rating: data?.travel?.rating,
+    });
+  }, [data]);
 
   const [addTravelDay] = useMutation(ADDTRAVELDAY_MUTATION);
   const [updateTravel] = useMutation(UPDATETRAVEL_MUTATION);
@@ -145,7 +161,7 @@ const TravelDetails = () => {
       variables: {
         id: id,
       },
-      refetchQueries: [{ query: TRAVELS_QUERY }],
+      refetchQueries: [{ query: TRAVELS_QUERY }, "TravelQuery"],
     });
     navigate("/");
   };
@@ -181,10 +197,13 @@ const TravelDetails = () => {
             <h2>{data.travel.title}</h2>
             <h3>{data.travel.location}</h3>
             <h4>{data.travel.description}</h4>
-            {/* <h4>
-              From: {format(new Date(data.dateRange?.start), "yyyy-MM-dd")}
+            <h4>
+              From:{" "}
+              {format(new Date(data.travel.dateRange?.start), "yyyy-MM-dd")}
             </h4>
-            <h4>To: {format(new Date(data.dateRange?.end), "yyyy-MM-dd")}</h4> */}
+            <h4>
+              To: {format(new Date(data.travel.dateRange?.end), "yyyy-MM-dd")}
+            </h4>
             <h5>Travel companions: {data.travel.travelCompanions}</h5>
             <h5>{data.travel.author}</h5>
             <h5>
