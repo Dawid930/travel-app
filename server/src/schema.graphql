@@ -1,5 +1,5 @@
 type Query {
-  travels(skip: Int, take: Int,): [Travel!]!
+  travels(skip: Int, take: Int, userId: ID!): [Travel!]!
   travel(id: ID!): Travel
   travelDay(id: ID!): TravelDays
   user(id: ID!): User
@@ -27,6 +27,7 @@ type Travel {
   dateRange: DateRange
   travelDays: [TravelDays]
   addedBy: User
+  
 }
 
 type TravelDays {

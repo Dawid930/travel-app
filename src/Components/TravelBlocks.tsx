@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Rate, Switch } from "antd";
 import { Travels } from "../Interface/Travel";
 import { Link } from "react-router-dom";
@@ -8,8 +8,10 @@ import { RATING_OPTIONS } from "./utils";
 import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
 import { TRAVELS_QUERY } from "./TravelQuery";
+import { LoginContext } from "./UserContext";
 
 const TravelBlocks = () => {
+  const loginContext = useContext(LoginContext);
   const [value, setValue] = useState(5);
 
   const [details, setDetails] = useState(false);
@@ -17,10 +19,11 @@ const TravelBlocks = () => {
   const showDetails = (checked: boolean) => {
     setDetails(checked);
   };
-
+  
   const { data } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: details,
+      userId:loginContext.userContext.id
     },
   });
 

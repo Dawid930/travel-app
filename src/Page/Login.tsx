@@ -18,7 +18,7 @@ const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
-      user{
+      user {
         id
         name
         email
@@ -28,13 +28,13 @@ const LOGIN_MUTATION = gql`
 `;
 
 const Login: React.FC = () => {
-  const loginContext = useContext(LoginContext)
-  //const { userContext, setUserContext } = LoginContextProvider();
+  const loginContext = useContext(LoginContext);
   const [user, setUser] = useState({
     login: true,
     email: "",
     password: "",
     name: "",
+    id: ""
   });
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -46,8 +46,7 @@ const Login: React.FC = () => {
     },
     onCompleted: ({ login }) => {
       localStorage.setItem(AUTH_TOKEN, login.token);
-      //setUserContext(login.user.name)
-      loginContext.setUserContext({name: login.user.name})
+      loginContext.setUserContext({ name: login.user.name, email: login.user.email, id: login.user.id,});
       navigate("/");
     },
   });
