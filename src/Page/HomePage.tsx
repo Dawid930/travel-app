@@ -8,6 +8,7 @@ import { TRAVELS_QUERY } from "../Components/TravelQuery";
 import { AUTH_TOKEN } from "../constants";
 
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const loginContext = useContext(LoginContext);
@@ -26,18 +27,10 @@ const Homepage = () => {
     loginContext.setUserContext({ name: "Guest", email: "", id: "" });
     localStorage.removeItem(AUTH_TOKEN);
   };
-
+  const navigate = useNavigate();
   return (
     <>
-      {loginContext.userContext.name === guestUser ? (
-        <div>
-          <h1>Please log in</h1>
-          <a href="/login">
-            {" "}
-            <StandardButton>Log In</StandardButton>
-          </a>
-        </div>
-      ) : (
+      {loginContext.userContext.name === guestUser ? navigate("/login"): (
         <>
           <UserDiv>
             <h3>Welcome {loginContext.userContext.name}!</h3>
