@@ -28,16 +28,3 @@ export const LoginContextProvider = ({ children }: LoginContextProviderProps) =>
         </LoginContext.Provider>
     )
 };
-
-//old version
-/* import { createContext, useContext } from "react";
-export type GlobalContent = {
-  userContext: string;
-  setUserContext: (c: string) => void;
-};
-export const MyGlobalContext = createContext<GlobalContent>({
-  userContext: "Guest",
-  setUserContext: () => {},
-});
-export const useGlobalContext = () => useContext(MyGlobalContext);
- */

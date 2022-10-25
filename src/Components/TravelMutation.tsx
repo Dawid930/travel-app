@@ -14,6 +14,7 @@ export const ADDTRAVELDAY_MUTATION = gql`
       daynumber
       description
       travelId
+      id
     }
   }
 `;

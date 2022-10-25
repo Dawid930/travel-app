@@ -74,6 +74,7 @@ input AddTravelDayInput {
   daynumber: Int
   description: String
   travelId: String
+  id: String
 }
 
 input UpdateTravelDayInput {

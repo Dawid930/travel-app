@@ -1,7 +1,7 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Checkbox, Form, Input } from "antd";
 import React, { useContext, useState } from "react";
 import { StandardButton, TravelDiv } from "../Components/Style";
-import { LoginContext, LoginContextProvider } from "../Components/UserContext";
+import { LoginContext } from "../Components/UserContext";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { AUTH_TOKEN } from "../constants";
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
     name: "",
-    id: ""
+    id: "",
   });
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -46,7 +46,11 @@ const Login: React.FC = () => {
     },
     onCompleted: ({ login }) => {
       localStorage.setItem(AUTH_TOKEN, login.token);
-      loginContext.setUserContext({ name: login.user.name, email: login.user.email, id: login.user.id,});
+      loginContext.setUserContext({
+        name: login.user.name,
+        email: login.user.email,
+        id: login.user.id,
+      });
       navigate("/");
     },
   });

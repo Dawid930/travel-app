@@ -5,9 +5,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
-import React, { useContext, useState } from "react";
-import styled from "@emotion/styled";
+import React, { useState } from "react";
 import { FormattedMenu } from "./Style";
 import { Link } from "react-router-dom";
 

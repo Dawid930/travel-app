@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { APP_SECRET, getUserId } = require("../utils");
+const { APP_SECRET } = require("../utils");
 
 async function addTravel(parent, args, { userId, prisma }, info) {
   return await prisma.travel.create({

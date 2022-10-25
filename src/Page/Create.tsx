@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import {
   Form,
   Input,
@@ -15,6 +14,7 @@ import { RATING_OPTIONS } from "../Components/utils";
 import { useMutation } from "@apollo/client";
 import { ADDTRAVEL_MUTATION } from "../Components/TravelMutation";
 import { TRAVELS_QUERY } from "../Components/TravelQuery";
+import { Travel } from "../Interface/Travel";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -27,7 +27,7 @@ type DateSetter = {
 const Create = () => {
   const [isPending, setIsPending] = useState(false);
 
-  const [input, setInput] = useState({
+  const [input, setInput] = useState<Travel>({
     title: "",
     country: "",
     location: "",

@@ -1,12 +1,14 @@
 export interface Travel {
-  title: string;
-  country: string;
-  location: string;
-  author: string;
-  description: string;
-  date: string;
-  travelCompanions: string;
-  id: number;
+  title: string,
+  country: string,
+  location: string,
+  dateRange: {
+    start: Date,
+    end: Date,
+  },
+  description: string,
+  travelCompanions: number
+  rating: number
 }
 
 export interface Travels {

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Card, Rate, Switch } from "antd";
-import { Travels } from "../Interface/Travel";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { ButtonDiv, StandardButton } from "./Style";
@@ -12,7 +11,6 @@ import { LoginContext } from "./UserContext";
 
 const TravelBlocks = () => {
   const loginContext = useContext(LoginContext);
-  const [value, setValue] = useState(5);
 
   const [details, setDetails] = useState(false);
 
@@ -56,7 +54,7 @@ const TravelBlocks = () => {
                     value={travel.rating}
                     disabled
                   />
-                  {value ? (
+                  {data ? (
                     <span className="ant-rate-text">
                       {RATING_OPTIONS[travel.rating - 1]}
                     </span>

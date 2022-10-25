@@ -1,9 +1,9 @@
 import TravelBlocks from "../Components/TravelBlocks";
 import { LoginContext } from "../Components/UserContext";
 import { LogoutOutlined } from "@ant-design/icons";
-import { StandardButton, UserDiv } from "../Components/Style";
+import { UserDiv } from "../Components/Style";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery} from "@apollo/client";
 import { TRAVELS_QUERY } from "../Components/TravelQuery";
 import { AUTH_TOKEN } from "../constants";
 
