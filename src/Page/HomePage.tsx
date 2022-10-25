@@ -3,49 +3,48 @@ import { LoginContext } from "../Components/UserContext";
 import { LogoutOutlined } from "@ant-design/icons";
 import { UserDiv } from "../Components/Style";
 
-import { useQuery} from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { TRAVELS_QUERY } from "../Components/TravelQuery";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_EMAIL, AUTH_ID, AUTH_NAME, AUTH_TOKEN } from "../constants";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const loginContext = useContext(LoginContext);
-  const guestUser = "Guest";
-  const authToken = localStorage.getItem(AUTH_TOKEN);
-  
+  const navigate = useNavigate();
+
   const { data: travels, error } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: true,
-      userId:loginContext.userContext.id
+      userId: loginContext.userContext.id,
     },
   });
-  
 
   const logOut = () => {
-    loginContext.setUserContext({ name: "Guest", email: "", id: "" });
+    loginContext.setUserContext({ name: "", email: "", id: "" });
     localStorage.removeItem(AUTH_TOKEN);
+    localStorage.removeItem(AUTH_NAME);
+    localStorage.removeItem(AUTH_EMAIL);
+    localStorage.removeItem(AUTH_ID);
   };
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    loginContext.userContext.id === "" && navigate("/login");
+  }, [loginContext]);
+
   return (
     <>
-      {loginContext.userContext.name === guestUser ? navigate("/login"): (
-        <>
-          <UserDiv>
-            <h3>Welcome {loginContext.userContext.name}!</h3>
-            {loginContext.userContext.name === guestUser || (
-              <button onClick={() => logOut()}>
-                <LogoutOutlined />
-              </button>
-            )}
-          </UserDiv>
-          <div className="homePage">
-            {error && <div>{error.message}</div>}
-            {travels && <TravelBlocks />}
-          </div>
-        </>
-      )}
+      <UserDiv>
+        <h3>Welcome {loginContext.userContext.name}!</h3>
+        <button onClick={() => logOut()}>
+          <LogoutOutlined />
+        </button>
+      </UserDiv>
+      <div className="homePage">
+        {error && <div>{error.message}</div>}
+        {travels && <TravelBlocks />}
+      </div>
     </>
   );
 };

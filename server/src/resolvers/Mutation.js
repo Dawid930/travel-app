@@ -2,7 +2,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../utils");
 
-async function addTravel(parent, args, { userId, prisma }, info) {
+async function addTravel(parent, args, { userId, prisma, isAuth }, info) {
+  isAuth()
   return await prisma.travel.create({
     include: { dateRange: true, addedBy: true },
     data: {
@@ -23,7 +24,8 @@ async function addTravel(parent, args, { userId, prisma }, info) {
   });
 }
 
-async function updateTravel(parent, args, { prisma }, info) {
+async function updateTravel(parent, args, { prisma, isAuth }, info) {
+  isAuth()
   return await prisma.travel.update({
     where: { id: args.id },
     include: { dateRange: true },
@@ -44,14 +46,16 @@ async function updateTravel(parent, args, { prisma }, info) {
   });
 }
 
-async function deleteTravel(parent, args, { prisma }, info) {
+async function deleteTravel(parent, args, { prisma, isAuth }, info) {
+  isAuth()
   const result = await prisma.travel.delete({
     where: { id: args.id },
   });
   return { deleted: !!result };
 }
 
-async function addTravelDay(parent, args, { userId, prisma }, info) {
+async function addTravelDay(parent, args, { userId, prisma, isAuth }, info) {
+  isAuth()
   return await prisma.travelDays.create({
     include: { addedBy: true },
     data: {
@@ -63,7 +67,8 @@ async function addTravelDay(parent, args, { userId, prisma }, info) {
   });
 }
 
-async function updateTravelDay(parent, args, { prisma }, info) {
+async function updateTravelDay(parent, args, { prisma, isAuth }, info) {
+  isAuth()
   return await prisma.travelDays.update({
     where: { id: args.id },
     data: {
@@ -75,7 +80,8 @@ async function updateTravelDay(parent, args, { prisma }, info) {
   });
 }
 
-async function deleteTravelDay(parent, args, { prisma }, info) {
+async function deleteTravelDay(parent, args, { prisma, isAuth }, info) {
+  isAuth()
   const result = await prisma.travelDays.delete({
     where: { id: args.id },
   });

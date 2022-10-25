@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Form,
@@ -15,16 +15,19 @@ import { useMutation } from "@apollo/client";
 import { ADDTRAVEL_MUTATION } from "../Components/TravelMutation";
 import { TRAVELS_QUERY } from "../Components/TravelQuery";
 import { Travel } from "../Interface/Travel";
+import { LoginContext } from "../Components/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-type DateSetter = {
-  start: Date | undefined;
-  end: Date | undefined;
-};
-
 const Create = () => {
+  const loginContext = useContext(LoginContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    loginContext.userContext.id === "" && navigate("/login");
+  }, [loginContext]);
+  
   const [isPending, setIsPending] = useState(false);
 
   const [input, setInput] = useState<Travel>({

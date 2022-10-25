@@ -4,7 +4,6 @@ import JourneyDay from "../Components/JourneyDay";
 
 
 const TravelDetails = () => {
-  
   return (
     <>
       <Journey/>

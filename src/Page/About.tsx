@@ -9,7 +9,7 @@ const About = () => {
       <div>
         <p>
           If you like to travel just as much we do, it is the best app to follow
-          up your journey and decoument your best memories.
+          up your journey and document your best memories.
         </p>
       </div>
     </>

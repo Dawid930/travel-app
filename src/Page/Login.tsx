@@ -4,7 +4,7 @@ import { StandardButton, TravelDiv } from "../Components/Style";
 import { LoginContext } from "../Components/UserContext";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_EMAIL, AUTH_ID, AUTH_NAME, AUTH_TOKEN } from "../constants";
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $name: String!) {
@@ -46,6 +46,9 @@ const Login: React.FC = () => {
     },
     onCompleted: ({ login }) => {
       localStorage.setItem(AUTH_TOKEN, login.token);
+      localStorage.setItem(AUTH_NAME, login.user.name);
+      localStorage.setItem(AUTH_EMAIL, login.user.email);
+      localStorage.setItem(AUTH_ID, login.user.id);
       loginContext.setUserContext({
         name: login.user.name,
         email: login.user.email,

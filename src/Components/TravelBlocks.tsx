@@ -17,11 +17,11 @@ const TravelBlocks = () => {
   const showDetails = (checked: boolean) => {
     setDetails(checked);
   };
-  
+
   const { data } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: details,
-      userId:loginContext.userContext.id
+      userId: loginContext.userContext.id,
     },
   });
 

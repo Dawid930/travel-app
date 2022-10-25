@@ -1,30 +1,35 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from "react";
+import { AUTH_EMAIL, AUTH_ID, AUTH_NAME } from "../constants";
 
 export type User = {
-    name: string
-    email: string
-    id: string
-
+  name: string;
+  email: string;
+  id: string;
 };
 
 export type LoginContextType = {
-  userContext: User,
-  setUserContext: React.Dispatch<React.SetStateAction<User>>
+  userContext: User;
+  setUserContext: React.Dispatch<React.SetStateAction<User>>;
 };
 
 type LoginContextProviderProps = {
-    children: React.ReactNode
+  children: React.ReactNode;
 };
 
 export const LoginContext = createContext({} as LoginContextType);
 
-export const LoginContextProvider = ({ children }: LoginContextProviderProps) => {
+export const LoginContextProvider = ({
+  children,
+}: LoginContextProviderProps) => {
+  const [userContext, setUserContext] = useState<User>({ //TODO itt kiszedni a localstorege-bol
+    name: localStorage.getItem(AUTH_NAME),
+    email: localStorage.getItem(AUTH_EMAIL),
+    id: localStorage.getItem(AUTH_ID),
+  });
 
-    const [userContext, setUserContext] = useState<User>({name: 'Guest', email: "", id: ""})
-    
-    return (
-        <LoginContext.Provider value={{ userContext, setUserContext }}>
-            {children}
-        </LoginContext.Provider>
-    )
+  return (
+    <LoginContext.Provider value={{ userContext, setUserContext }}>
+      {children}
+    </LoginContext.Provider>
+  );
 };
