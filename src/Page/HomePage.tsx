@@ -5,7 +5,7 @@ import { UserDiv } from "../Components/Style";
 
 import { useQuery } from "@apollo/client";
 import { TRAVELS_QUERY } from "../Components/TravelQuery";
-import { AUTH_EMAIL, AUTH_ID, AUTH_NAME, AUTH_TOKEN } from "../constants";
+import { AUTH_EMAIL, AUTH_ID, AUTH_NAME, AUTH_TOKEN, AUTH_USER } from "../constants";
 
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ const Homepage = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    loginContext?.userContext?.id === (null && "" ) && navigate("/login");
+    loginContext?.userContext?.id === (null || "" ) && navigate("/login");
   }, [loginContext]);
 
   console.log(loginContext.userContext);
@@ -34,6 +34,8 @@ const Homepage = () => {
     localStorage.removeItem(AUTH_NAME);
     localStorage.removeItem(AUTH_EMAIL);
     localStorage.removeItem(AUTH_ID);
+    localStorage.removeItem(AUTH_USER);
+    navigate('/login')
   };
 
   return (
