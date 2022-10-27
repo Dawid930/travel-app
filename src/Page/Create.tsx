@@ -25,7 +25,7 @@ const Create = () => {
   const loginContext = useContext(LoginContext);
   const navigate = useNavigate();
   useEffect(() => {
-    loginContext.userContext.id === "" && navigate("/login");
+    loginContext.userContext.id === (null && "") && navigate("/login");
   }, [loginContext]);
   
   const [isPending, setIsPending] = useState(false);

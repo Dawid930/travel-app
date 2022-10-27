@@ -13,7 +13,14 @@ import { useNavigate } from "react-router-dom";
 const Homepage = () => {
   const loginContext = useContext(LoginContext);
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    loginContext?.userContext?.id === (null && "" ) && navigate("/login");
+  }, [loginContext]);
 
+  console.log(loginContext.userContext);
+  
+  
   const { data: travels, error } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: true,
@@ -28,10 +35,6 @@ const Homepage = () => {
     localStorage.removeItem(AUTH_EMAIL);
     localStorage.removeItem(AUTH_ID);
   };
-
-  useEffect(() => {
-    loginContext.userContext.id === "" && navigate("/login");
-  }, [loginContext]);
 
   return (
     <>

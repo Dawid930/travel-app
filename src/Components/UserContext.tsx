@@ -21,7 +21,7 @@ export const LoginContext = createContext({} as LoginContextType);
 export const LoginContextProvider = ({
   children,
 }: LoginContextProviderProps) => {
-  const [userContext, setUserContext] = useState<User>({ //TODO itt kiszedni a localstorege-bol
+  const [userContext, setUserContext] = useState<User>({
     name: localStorage.getItem(AUTH_NAME),
     email: localStorage.getItem(AUTH_EMAIL),
     id: localStorage.getItem(AUTH_ID),

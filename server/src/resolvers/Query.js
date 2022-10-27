@@ -1,5 +1,5 @@
 const travels = async (parent, args, context) => {
-  context.isAuth() // belerakni a tobbibe is mutationokbe is
+  context.isAuth()
   return await context.prisma.travel.findMany({
     where: {
       addedBy: {
