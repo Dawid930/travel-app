@@ -77,3 +77,8 @@ select {
   justify-content: center;
   padding: 30px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+}

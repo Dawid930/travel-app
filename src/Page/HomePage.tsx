@@ -17,9 +17,6 @@ const Homepage = () => {
   useEffect(() => {
     loginContext?.userContext?.id === (null || "" ) && navigate("/login");
   }, [loginContext]);
-
-  console.log(loginContext.userContext);
-  
   
   const { data: travels, error } = useQuery(TRAVELS_QUERY, {
     variables: {

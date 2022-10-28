@@ -3,3 +3,4 @@ export const AUTH_NAME = 'auth-name';
 export const AUTH_EMAIL = 'auth-email';
 export const AUTH_ID = 'auth-id';
 export const AUTH_USER = 'auth-user';
+export const TRAVEL_PER_PAGE= 3

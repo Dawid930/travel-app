@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Card, Rate, Switch } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { ButtonDiv, StandardButton } from "./Style";
 import { RATING_OPTIONS } from "./utils";
@@ -8,9 +8,11 @@ import { format } from "date-fns";
 import { useQuery } from "@apollo/client";
 import { TRAVELS_QUERY } from "./TravelQuery";
 import { LoginContext } from "./UserContext";
+import { TRAVEL_PER_PAGE } from "../constants";
 
 const TravelBlocks = () => {
   const loginContext = useContext(LoginContext);
+  const navigate = useNavigate();
 
   const [details, setDetails] = useState(false);
 
@@ -18,10 +20,21 @@ const TravelBlocks = () => {
     setDetails(checked);
   };
 
+  //const [page, setPage] = useState(0)
+
+  const location = useLocation();
+
+  const isNewPage = location.pathname.includes("travels");
+  const pageIndexParams = location.pathname.split("/");
+  const page = parseInt(pageIndexParams[pageIndexParams.length - 1]);
+  const pageIndex = page ? (page - 1) * TRAVEL_PER_PAGE : 0;
+
   const { data } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: details,
       userId: loginContext.userContext.id,
+      skip: isNewPage ? (page - 1) * TRAVEL_PER_PAGE : 0,
+      take: isNewPage ? TRAVEL_PER_PAGE : 3,
     },
   });
 
@@ -31,7 +44,7 @@ const TravelBlocks = () => {
         Show details: <Switch onChange={showDetails} />
       </h4>
       <div className="travel-list">
-        {data.travels.map((travel) => (
+        {data?.travels?.map((travel) => (
           <div className="site-card-border-less-wrapper" key={travel.id}>
             <Card title={travel.title} bordered={false} style={{ width: 300 }}>
               <h4>{travel.country}</h4>
@@ -81,6 +94,25 @@ const TravelBlocks = () => {
           </div>
         </Link>
       </div>
+      <nav className="pagination">
+        <StandardButton disabled={page === 1}
+          onClick={() => {
+              navigate(`/travels/${page - 1}`);
+          }}
+        >
+          Previous
+        </StandardButton>
+        <StandardButton 
+          onClick={() => {
+            if (page <= data?.travels?.length) {
+              const nextPage = page + 1;
+              navigate(`/travels/${nextPage}`);
+            }
+          }}
+        >
+          Next
+        </StandardButton>
+      </nav>
     </>
   );
 };
