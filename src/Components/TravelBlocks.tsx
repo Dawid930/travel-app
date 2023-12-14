@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Rate, Switch } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
@@ -21,7 +21,7 @@ const TravelBlocks = () => {
   };
 
   //const [page, setPage] = useState(0)
-
+ 
   const location = useLocation();
 
   const isNewPage = location.pathname.includes("travels");
@@ -44,8 +44,8 @@ const TravelBlocks = () => {
         Show details: <Switch onChange={showDetails} />
       </h4>
       <div className="travel-list">
-        {data?.travels?.map((travel) => (
-          <div className="site-card-border-less-wrapper" key={travel.id}>
+        {data?.travels?.map((travel, index) => (
+          <div className="site-card-border-less-wrapper" key={travel.id} {...index + pageIndex}>
             <Card title={travel.title} bordered={false} style={{ width: 300 }}>
               <h4>{travel.country}</h4>
               {travel.location && <h4>Location: {travel.location}</h4>}
@@ -77,7 +77,7 @@ const TravelBlocks = () => {
                 </span>
               )}
 
-              <Link to={`/travels/${travel.id}`}>
+              <Link to={`/travel/${travel.id}`}>
                 <ButtonDiv>
                   <StandardButton>More details</StandardButton>
                 </ButtonDiv>
@@ -95,14 +95,15 @@ const TravelBlocks = () => {
         </Link>
       </div>
       <nav className="pagination">
-        <StandardButton disabled={page === 1}
+        <StandardButton
+          disabled={page === 1}
           onClick={() => {
-              navigate(`/travels/${page - 1}`);
+            navigate(`/travels/${page - 1}`);
           }}
         >
           Previous
         </StandardButton>
-        <StandardButton 
+        <StandardButton
           onClick={() => {
             if (page <= data?.travels?.length) {
               const nextPage = page + 1;

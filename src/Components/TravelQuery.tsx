@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const TRAVELS_QUERY = gql`
-  query TravelQuery($showDetails: Boolean! = false, $userId: ID!, $skip: Int, $take: Int) {
+  query TravelQuery($showDetails: Boolean! = false, $userId: ID, $skip: Int, $take: Int) {
     travels(userId: $userId, skip: $skip, take: $take) {
       title
       country

@@ -1,5 +1,5 @@
 const travels = async (parent, args, context) => {
-  context.isAuth()
+  context.isAuth();
   return await context.prisma.travel.findMany({
     where: {
       addedBy: {
@@ -19,7 +19,7 @@ const travels = async (parent, args, context) => {
 };
 
 const travel = async (parent, args, context) => {
-  context.isAuth()
+  context.isAuth();
   return await context.prisma.travel.findUnique({
     where: { id: args.id },
     include: {
@@ -31,7 +31,7 @@ const travel = async (parent, args, context) => {
 };
 
 const travelDay = async (parent, args, context) => {
-  context.isAuth()
+  context.isAuth();
   return await context.prisma.travelDays.findUnique({
     where: { id: args.id },
     include: {
@@ -41,7 +41,7 @@ const travelDay = async (parent, args, context) => {
 };
 
 const user = async (parent, args, context) => {
-  context.isAuth()
+  context.isAuth();
   return await context.prisma.user.findUnique({
     where: { id: args.id },
   });

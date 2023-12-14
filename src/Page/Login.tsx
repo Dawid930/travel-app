@@ -54,7 +54,7 @@ const Login: React.FC = () => {
         email: login.user.email,
         id: login.user.id,
       });
-      navigate("/");
+      navigate("/travels");
     },
   });
 

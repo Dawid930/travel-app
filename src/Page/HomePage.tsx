@@ -1,39 +1,54 @@
-import TravelBlocks from "../Components/TravelBlocks";
-import { LoginContext } from "../Components/UserContext";
-import { LogoutOutlined } from "@ant-design/icons";
-import { UserDiv } from "../Components/Style";
+import TravelBlocks from "../Components/TravelBlocks"
+import { LoginContext } from "../Components/UserContext"
+import { LogoutOutlined } from "@ant-design/icons"
+import { UserDiv } from "../Components/Style"
+import { useQuery } from "@apollo/client"
+import { TRAVELS_QUERY } from "../Components/TravelQuery"
+import {
+  AUTH_EMAIL,
+  AUTH_ID,
+  AUTH_NAME,
+  AUTH_TOKEN,
+  AUTH_USER,
+} from "../constants"
 
-import { useQuery } from "@apollo/client";
-import { TRAVELS_QUERY } from "../Components/TravelQuery";
-import { AUTH_EMAIL, AUTH_ID, AUTH_NAME, AUTH_TOKEN, AUTH_USER } from "../constants";
-
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Homepage = () => {
-  const loginContext = useContext(LoginContext);
-  const navigate = useNavigate();
-  
+  const loginContext = useContext(LoginContext)
+  const navigate = useNavigate()
+
   useEffect(() => {
-    loginContext?.userContext?.id === (null || "" ) && navigate("/login");
-  }, [loginContext]);
-  
+    loginContext?.userContext?.id === (null || "")
+      ? navigate("/login")
+      : navigate("/travels/1")
+  }, [loginContext])
+
   const { data: travels, error } = useQuery(TRAVELS_QUERY, {
     variables: {
       showDetails: true,
       userId: loginContext.userContext.id,
     },
-  });
+  })
 
   const logOut = () => {
-    loginContext.setUserContext({ name: "", email: "", id: "" });
-    localStorage.removeItem(AUTH_TOKEN);
-    localStorage.removeItem(AUTH_NAME);
-    localStorage.removeItem(AUTH_EMAIL);
-    localStorage.removeItem(AUTH_ID);
-    localStorage.removeItem(AUTH_USER);
-    navigate('/login')
-  };
+    loginContext.setUserContext({ name: "", email: "", id: "" })
+    localStorage.removeItem(AUTH_TOKEN)
+    localStorage.removeItem(AUTH_NAME)
+    localStorage.removeItem(AUTH_EMAIL)
+    localStorage.removeItem(AUTH_ID)
+    localStorage.removeItem(AUTH_USER)
+    navigate("/login")
+  }
+
+  const errorHandle = () => {
+    return error.message === "Not authorized" ? (
+      navigate("/login")
+    ) : (
+      <h1>asd</h1>
+    )
+  }
 
   return (
     <>
@@ -44,11 +59,14 @@ const Homepage = () => {
         </button>
       </UserDiv>
       <div className="homePage">
+        {/*         <>
+        {error.message === "Not authorized" && navigate('/login')}
+        </> */}
         {error && <div>{error.message}</div>}
         {travels && <TravelBlocks />}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Homepage;
+export default Homepage

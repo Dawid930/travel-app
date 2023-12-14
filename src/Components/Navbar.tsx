@@ -5,14 +5,17 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FormattedMenu } from "./Style";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginContext } from "./UserContext";
+
+
 
 const items: MenuProps["items"] = [
   {
     label: (
-      <Link to="/" rel="noopener noreferrer">
+      <Link to={"/travels"} rel="noopener noreferrer">
         Home
       </Link>
     ),
@@ -50,7 +53,6 @@ const items: MenuProps["items"] = [
 
 const Navbar: React.FC = () => {
   const [current, setCurrent] = useState("mail");
-
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
   };

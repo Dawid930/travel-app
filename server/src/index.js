@@ -24,7 +24,7 @@ const server = new ApolloServer({
       ...req,
       prisma,
       userId,
-      isAuth: () => {if (!userId) throw Error("Not authorized")}
+      isAuth: () => {if (!userId) throw Error("Not authorized, please log in!")}
     };
   },
 });
